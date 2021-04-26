@@ -1,21 +1,35 @@
 package com.thing.bangkit.thingjetpackkotlin.viemodel
 
-import junit.framework.TestCase
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
+import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertNotNull
 import org.junit.Before
 import org.junit.Test
+import org.mockito.MockitoAnnotations
 
-class FilmViewModelTest : TestCase() {
-
+class FilmViewModelTest{
     private lateinit var viewModel: FilmViewModel
 
+    private lateinit var context : Context
+
     @Before
-    override fun setUp() {
+    fun setUp() {
+        MockitoAnnotations.openMocks(this);
         viewModel = FilmViewModel()
+        context = ApplicationProvider.getApplicationContext()
     }
 
     @Test
-    fun testGetGenerateMoviesData() {}
-
+    fun getGenerateMoviesData() {
+        val movies = viewModel.getGenerateMoviesData(context)
+        assertNotNull(movies)
+        assertEquals(12, movies.size)
+    }
     @Test
-    fun testGetGenerateTvShowData() {}
+    fun getGenerateTvShowData() {
+        val tvshows = viewModel.getGenerateTvShowData(context)
+        assertNotNull(context)
+        assertEquals(12, tvshows.size)
+    }
 }
