@@ -1,12 +1,11 @@
 package com.thing.bangkit.thingjetpackkotlin.viemodel
 
 import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import junit.framework.Assert.assertEquals
 import junit.framework.TestCase.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import org.mockito.MockitoAnnotations
+import org.mockito.Mockito
 
 class FilmViewModelTest{
     private lateinit var viewModel: FilmViewModel
@@ -15,9 +14,10 @@ class FilmViewModelTest{
 
     @Before
     fun setUp() {
-        MockitoAnnotations.openMocks(this);
+//        MockitoAnnotations.openMocks(this);
         viewModel = FilmViewModel()
-        context = ApplicationProvider.getApplicationContext()
+//        context = ApplicationProvider.getApplicationContext()
+        context = Mockito.mock(Context::class.java)
     }
 
     @Test
