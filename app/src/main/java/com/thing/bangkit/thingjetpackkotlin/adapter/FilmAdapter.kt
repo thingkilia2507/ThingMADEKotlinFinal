@@ -10,23 +10,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.thing.bangkit.thingjetpackkotlin.R
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity
-import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.EXTRA_FILM
+import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.EXTRA_FILM_ID
+import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.EXTRA_FILM_TYPE
 import com.thing.bangkit.thingjetpackkotlin.databinding.CardItemListFilmBinding
 import com.thing.bangkit.thingjetpackkotlin.model.Film
 
 class FilmAdapter : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
 
     var listFilm: ArrayList<Film> = ArrayList()
+    var type : Int = 0
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
-        return FilmViewHolder(CardItemListFilmBinding.inflate(LayoutInflater.from(parent.context),
-            parent,
-            false))
+        return FilmViewHolder(CardItemListFilmBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
-        holder.bind(listFilm[position])
+        holder.bind(listFilm[position], position, type)
     }
 
     override fun getItemCount(): Int = listFilm.size
@@ -35,7 +35,7 @@ class FilmAdapter : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-        fun bind(film: Film) {
+        fun bind(film: Film, position: Int, type: Int) {
             binding.tvTitleItem.text = film.title
             binding.tvOverviewItem.text = film.overview
             binding.tvRatingItem.text = "${film.rating}%"
@@ -50,16 +50,17 @@ class FilmAdapter : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
                 .load(film.poster)
                 .into(binding.ivCompactPosterItem)
 
-            itemView.setOnClickListener{goToDetail(film)}
+            itemView.setOnClickListener{goToDetail(position, type)}
             binding.btnDetail.setOnClickListener {
-                goToDetail(film)
+                goToDetail(position, type)
             }
 
         }
 
-        private fun goToDetail(film: Film) {
+        private fun goToDetail(position: Int, type: Int) {
             val i = Intent(binding.root.context, DetailActivity::class.java)
-            i.putExtra(EXTRA_FILM, film)
+            i.putExtra(EXTRA_FILM_ID, position)
+            i.putExtra(EXTRA_FILM_TYPE, type)
             val option =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(itemView.context as Activity,
                     binding.ivCompactPosterItem,

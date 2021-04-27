@@ -8,4 +8,5 @@ import com.thing.bangkit.thingjetpackkotlin.model.Film
 class FilmViewModel : ViewModel() {
     fun getGenerateMoviesData(context: Context) : ArrayList<Film> = DummyFilm.getGenerateDummyMovies(context)
     fun getGenerateTvShowData(context: Context) : ArrayList<Film> = DummyFilm.getGenerateDummyTvShows(context)
+    fun getFilmsFromId(id: Int, type :Int) : Film? = DummyFilm.getFilmFromId(id, type)
 }
