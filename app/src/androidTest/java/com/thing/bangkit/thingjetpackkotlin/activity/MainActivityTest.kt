@@ -25,6 +25,25 @@ class MainActivityTest {
     @get:Rule
     var activityRule = ActivityScenarioRule(MainActivity::class.java)
 
+    /* Another way
+       private lateinit var context: Context
+    private lateinit var movies: ArrayList<Film>
+    private lateinit var tvshows : ArrayList<Film>
+    private var dummyMovie : Film? = null
+    private var dummyTvShow : Film? = null
+
+    @Before
+    fun setUp() {
+        context = InstrumentationRegistry.getInstrumentation().targetContext
+        ActivityScenario.launch(MainActivity::class.java)
+        movies = DummyFilm.getGenerateDummyMovies(context)
+        tvshows = DummyFilm.getGenerateDummyTvShows(context)
+        dummyMovie = DummyFilm.getFilmFromId(0,1)
+        dummyTvShow = DummyFilm.getFilmFromId(0,2)
+
+    }
+    * */
+
     @Test
     fun loadMovie() {
         onView(withId(R.id.tabs)).check(matches(isDisplayed()))

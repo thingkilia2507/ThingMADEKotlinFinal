@@ -15,15 +15,19 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 
+
+//@RunWith(AndroidJUnit4ClassRunner::class) // if it's error, write the import by yourself on top : import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 @LooperMode(LooperMode.Mode.PAUSED)
 class FilmViewModelTest {
     private val context: Context = ApplicationProvider.getApplicationContext()
+//    private lateinit var context: Context
     private lateinit var viewModel: FilmViewModel
 
     @Before
     fun setUp() {
+//        context = InstrumentationRegistry.getInstrumentation().targetContext
         viewModel = FilmViewModel()
     }
 
