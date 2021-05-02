@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TYPE_ID_MOVIE
-import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TYPE_ID_TVSHOW
+import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TYPE_ID_TV_SHOW
 import com.thing.bangkit.thingjetpackkotlin.adapter.FilmAdapter
 import com.thing.bangkit.thingjetpackkotlin.databinding.ContentFragmentListBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.FragmentFilmBinding
@@ -59,7 +59,7 @@ class FilmFragment : Fragment() {
                 adapter.listFilm = it
                 setEmptyView(it.size < 1, adapter)
             })
-            adapter.type = TYPE_ID_TVSHOW
+            adapter.type = TYPE_ID_TV_SHOW
         }
 
     }

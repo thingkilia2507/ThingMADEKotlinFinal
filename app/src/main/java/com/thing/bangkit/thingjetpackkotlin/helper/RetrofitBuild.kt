@@ -11,7 +11,7 @@ object RetrofitBuild {
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .build()
 
-    fun instance() = Retrofit.Builder()
+    fun instance(): Retrofit = Retrofit.Builder()
         .baseUrl(Utility.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)

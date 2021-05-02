@@ -57,7 +57,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodelVersion"
-    implementation "androidx.activity:activity-ktx:$activityKtxVersion" //for using "by viewmodels()" to initialiaze viewmodel automatically
+    implementation "androidx.activity:activity-ktx:$activityKtxVersion" //for using "by viewModels()" to initialize viewModel automatically
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"

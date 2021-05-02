@@ -1,7 +1,6 @@
 package com.thing.bangkit.thingjetpackkotlin.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -10,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.thing.bangkit.thingjetpackkotlin.R
 import com.thing.bangkit.thingjetpackkotlin.databinding.ActivityDetailBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.ContentDetailBinding
-import com.thing.bangkit.thingjetpackkotlin.helper.FilmRepository
 import com.thing.bangkit.thingjetpackkotlin.helper.Utility.IMAGE_URL
 import com.thing.bangkit.thingjetpackkotlin.model.Film
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmViewModel
@@ -27,7 +25,7 @@ class DetailActivity : AppCompatActivity() {
         const val EXTRA_FILM_ID = "extra_film_id"
         const val EXTRA_FILM_TYPE = "extra_film_type"
         const val TYPE_ID_MOVIE = 1
-        const val TYPE_ID_TVSHOW = 2
+        const val TYPE_ID_TV_SHOW = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,8 +40,6 @@ class DetailActivity : AppCompatActivity() {
 
         val filmId = intent.getIntExtra(EXTRA_FILM_ID, -1)
         val type = intent.getIntExtra(EXTRA_FILM_TYPE, -1)
-        Log.d(FilmRepository.TAG, "onCreate: "+ filmId + type)
-
 
         viewModel = ViewModelProvider(this, ViewModelFactory.getInstance())[FilmViewModel::class.java]
         viewModel.getFilmsFromId(filmId, type).observe(this, {

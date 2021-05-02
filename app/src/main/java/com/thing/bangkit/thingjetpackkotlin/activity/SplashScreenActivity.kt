@@ -18,7 +18,7 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         lifecycleScope.launch(Dispatchers.Main) {
-            delay(DELAYTIME)
+            delay(DELAY_TIME)
             startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
             finish()
         }
@@ -26,6 +26,6 @@ class SplashScreenActivity : AppCompatActivity() {
 
 
     companion object {
-        private const val DELAYTIME : Long = 3000
+        private const val DELAY_TIME : Long = 3000
     }
 }

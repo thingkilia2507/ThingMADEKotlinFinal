@@ -24,7 +24,7 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 
-@RunWith(RobolectricTestRunner::class,)
+@RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 @LooperMode(LooperMode.Mode.PAUSED)
 class FilmViewModelTest {

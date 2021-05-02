@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/Theme.ThingJetpackKotlin.Fullscreen"
+    android:theme="@style/Theme.ThingJetPackKotlin.Fullscreen"
     tools:context=".activity.SplashScreenActivity">
 
     <com.airbnb.lottie.LottieAnimationView
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/lottiemoviewatch"
+        app:lottie_rawRes="@raw/lottie_movie_watch"
         android:adjustViewBounds="true"
         app:lottie_loop="true"/>
 

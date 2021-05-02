@@ -42,8 +42,8 @@ class MainActivityTest {
                 0,
                 click()))
             sleep(2000)
-            onView(withId(R.id.swipeit)).perform(ViewActions.swipeUp())
-            onView(withId(R.id.swipeit)).perform(ViewActions.swipeUp())
+            onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
+            onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
             onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
             onView(withId(R.id.tv_title)).check(matches(withText(dummyMovie.title)))
             onView(withId(R.id.tv_vote_count)).check(matches(isDisplayed()))
@@ -84,8 +84,8 @@ class MainActivityTest {
         sleep(2000)
         val dummyTvShow = tvShows.value?.get(0)?.id?.let { FilmRepository.getInstance().getDetailFromId(it, 2).value }
         dummyTvShow?.let {
-            onView(withId(R.id.swipeit)).perform(ViewActions.swipeUp())
-            onView(withId(R.id.swipeit)).perform(ViewActions.swipeUp())
+            onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
+            onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
             onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
             onView(withId(R.id.tv_title)).check(matches(withText(dummyTvShow.title)))
             onView(withId(R.id.tv_overview)).check(matches(isDisplayed()))
