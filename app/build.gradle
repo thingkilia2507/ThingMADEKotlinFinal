@@ -20,6 +20,9 @@ android {
     }
 
     buildTypes {
+        debug{
+            buildConfigField ("String", "API_KEY", API_KEY)
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -56,6 +59,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodelVersion"
     implementation "androidx.activity:activity-ktx:$activityKtxVersion" //for using "by viewmodels()" to initialiaze viewmodel automatically
 
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion"
+
     //ui
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "com.google.android.material:material:$materialVersion"
@@ -64,8 +71,8 @@ dependencies {
 
     implementation 'com.airbnb.android:lottie:3.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'org.mockito:mockito-core:3.6.0'
-    testImplementation 'org.mockito:mockito-inline:3.6.0'
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
 
     //testing
     implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'

@@ -12,12 +12,11 @@ import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TY
 import com.thing.bangkit.thingjetpackkotlin.adapter.FilmAdapter
 import com.thing.bangkit.thingjetpackkotlin.databinding.ContentFragmentListBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.FragmentFilmBinding
-import com.thing.bangkit.thingjetpackkotlin.model.Film
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmViewModel
+import com.thing.bangkit.thingjetpackkotlin.viemodel.ViewModelFactory
 
 class FilmFragment : Fragment() {
 
-    private var films: ArrayList<Film> = ArrayList()
     private lateinit var fragmentFilmBinding: FragmentFilmBinding
     private lateinit var binding: ContentFragmentListBinding
     private lateinit var viewModel: FilmViewModel
@@ -41,7 +40,7 @@ class FilmFragment : Fragment() {
         fragmentFilmBinding = FragmentFilmBinding.inflate(inflater, container, false)
         binding = fragmentFilmBinding.contentFragmentList
         viewModel = ViewModelProvider(requireActivity(),
-            ViewModelProvider.NewInstanceFactory())[FilmViewModel::class.java]
+            ViewModelFactory.getInstance())[FilmViewModel::class.java]
         return fragmentFilmBinding.root
     }
 
@@ -50,14 +49,25 @@ class FilmFragment : Fragment() {
         progressBarShow(true)
         val adapter = FilmAdapter()
         if (arguments?.getInt(ARG_POSITION_BUNDLE) == 0) {
-            films = viewModel.getGenerateMoviesData(requireContext())
+            viewModel.moviesData().observe(this, {
+                adapter.listFilm = it
+                setEmptyView(it.size < 1, adapter)
+            })
             adapter.type = TYPE_ID_MOVIE
         } else {
-            films = viewModel.getGenerateTvShowData(requireContext())
+            viewModel.tvShowsData().observe(this, {
+                adapter.listFilm = it
+                setEmptyView(it.size < 1, adapter)
+            })
             adapter.type = TYPE_ID_TVSHOW
         }
-        if (films.size > 0) {
-            adapter.listFilm = films
+
+    }
+
+    private fun setEmptyView(isEmpty: Boolean, adapter: FilmAdapter) {
+        if (isEmpty)
+            ivEmptyShow(true)
+        else {
             binding.rvListFilm.apply {
                 this.adapter = adapter
                 setHasFixedSize(true)
@@ -65,10 +75,7 @@ class FilmFragment : Fragment() {
                 visibility = View.VISIBLE
                 ivEmptyShow(false)
             }
-        } else {
-            ivEmptyShow(true)
         }
-
         progressBarShow(false)
     }
 

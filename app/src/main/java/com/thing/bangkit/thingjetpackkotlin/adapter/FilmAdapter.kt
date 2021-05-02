@@ -13,6 +13,7 @@ import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.EXTRA_FILM_ID
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.EXTRA_FILM_TYPE
 import com.thing.bangkit.thingjetpackkotlin.databinding.CardItemListFilmBinding
+import com.thing.bangkit.thingjetpackkotlin.helper.Utility.IMAGE_URL
 import com.thing.bangkit.thingjetpackkotlin.model.Film
 
 class FilmAdapter : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
@@ -26,7 +27,7 @@ class FilmAdapter : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
-        holder.bind(listFilm[position], position, type)
+        holder.bind(listFilm[position], type)
     }
 
     override fun getItemCount(): Int = listFilm.size
@@ -35,31 +36,33 @@ class FilmAdapter : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-        fun bind(film: Film, position: Int, type: Int) {
+        fun bind(film: Film, type: Int) {
             binding.tvTitleItem.text = film.title
             binding.tvOverviewItem.text = film.overview
-            binding.tvRatingItem.text = "${film.rating}%"
-            binding.progressbarCircleRateItem.progress = film.rating
+
+            val rating = (film.voteAverage * 10).toInt()
+            binding.tvRatingItem.text = "$rating%"
+            binding.progressbarCircleRateItem.progress = rating
             binding.progressbarCircleRateItem.progressDrawable =
-                if (film.rating > 69) itemView.context.getDrawable(R.drawable.circle) else
+                if (rating > 69) itemView.context.getDrawable(R.drawable.circle) else
                     itemView.context.getDrawable(R.drawable.circleyellow)
             binding.tvReleaseDateItem.text = film.releaseDate
             Glide.with(itemView.context).asBitmap()
                 .placeholder(R.drawable.movielogo)
                 .error(R.drawable.movielogo)
-                .load(film.poster)
+                .load(IMAGE_URL + film.poster)
                 .into(binding.ivCompactPosterItem)
 
-            itemView.setOnClickListener{goToDetail(position, type)}
+            itemView.setOnClickListener{goToDetail(film.id, type)}
             binding.btnDetail.setOnClickListener {
-                goToDetail(position, type)
+                goToDetail(film.id, type)
             }
 
         }
 
-        private fun goToDetail(position: Int, type: Int) {
+        private fun goToDetail(id: Int, type: Int) {
             val i = Intent(binding.root.context, DetailActivity::class.java)
-            i.putExtra(EXTRA_FILM_ID, position)
+            i.putExtra(EXTRA_FILM_ID, id)
             i.putExtra(EXTRA_FILM_TYPE, type)
             val option =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(itemView.context as Activity,

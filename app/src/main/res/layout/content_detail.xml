@@ -14,9 +14,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rates"
             android:layout_width="wrap_content"
-            android:paddingTop="@dimen/padding_def"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true">
+            android:layout_alignParentEnd="true"
+            android:paddingTop="@dimen/padding_def">
 
             <ProgressBar
                 android:id="@+id/progressbar_circle_rate"
@@ -54,9 +54,9 @@
             android:layout_toStartOf="@id/rates"
             android:paddingStart="@dimen/padding_def"
             android:paddingEnd="@dimen/padding_def"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="@dimen/heading3"
-            android:textAlignment="center"
             tools:text="A little Thing Called Love" />
 
         <TextView
@@ -66,55 +66,57 @@
             android:layout_below="@id/tv_title"
             android:layout_toStartOf="@id/rates"
             android:fontFamily="serif"
+            android:gravity="center"
             android:paddingStart="@dimen/padding_def"
             android:paddingEnd="@dimen/padding_def"
             android:textColor="#917E7E"
-            android:gravity="center"
             android:textSize="@dimen/heading6"
             tools:text="March 21, 2021" />
 
         <TextView
-            android:id="@+id/tv_duration"
+            android:id="@+id/tv_vote_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_release_date"
             android:layout_toStartOf="@id/rates"
+            android:drawablePadding="@dimen/margin_mini"
+            android:gravity="fill_vertical"
             android:paddingStart="@dimen/padding_def"
             android:paddingEnd="@dimen/padding_def"
             android:textColor="@color/black"
-            android:gravity="fill_vertical"
             android:textSize="@dimen/text_size_standard"
-            tools:text="1 Hours 2 Minutes"
-            app:drawableStartCompat="@drawable/ic_duration" />
+            app:drawableStartCompat="@drawable/ic_vote"
+            tools:text="Vote Count : 345" />
 
 
         <TextView
-            android:id="@+id/tv_genre"
+            android:id="@+id/tv_popularity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_duration"
+            android:layout_below="@id/tv_vote_count"
             android:layout_toStartOf="@id/rates"
+            android:drawablePadding="@dimen/margin_mini"
+            android:gravity="center_vertical"
             android:paddingStart="@dimen/padding_def"
             android:paddingEnd="@dimen/padding_def"
-            android:textAllCaps="true"
             android:textColor="@color/black"
-            android:gravity="center_vertical"
-            app:drawableStartCompat="@drawable/ic_genre_film"
             android:textSize="@dimen/text_size_standard"
-            tools:text="Drama" />
+            app:drawableStartCompat="@drawable/ic_popularity_eye"
+            tools:text="Popularity : 19000" />
 
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/tv_popularity"
             android:layout_margin="@dimen/margin_small"
-            android:layout_below="@+id/tv_genre"
             app:cardCornerRadius="10dp">
+
             <TextView
                 android:id="@+id/tv_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_duration"
+                android:layout_below="@id/tv_vote_count"
                 android:layout_toStartOf="@id/rates"
                 android:padding="@dimen/padding_def"
                 android:textColor="@color/black"

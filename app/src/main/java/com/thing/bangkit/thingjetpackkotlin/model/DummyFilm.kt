@@ -1,6 +1,5 @@
 package com.thing.bangkit.thingjetpackkotlin.model
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.thing.bangkit.thingjetpackkotlin.R
@@ -10,51 +9,51 @@ object DummyFilm {
 
     private val moviesList = MutableLiveData<ArrayList<Film>>()
     private val tvShowsList = MutableLiveData<ArrayList<Film>>()
-    @SuppressLint("Recycle")
     fun getGenerateDummyMovies(context: Context) : ArrayList<Film> {
         val movies = ArrayList<Film>()
         val titles = context.resources.getStringArray(R.array.movie_title)
-        val durations = context.resources.getStringArray(R.array.movie_duration)
-        val genres = context.resources.getStringArray(R.array.movie_genre)
         val overviews = context.resources.getStringArray(R.array.movie_overview)
         val posters = context.resources.obtainTypedArray(R.array.movie_poster)
         val ratings = context.resources.getIntArray(R.array.movie_rating)
         val releaseDates = context.resources.getStringArray(R.array.movie_releaseDate)
 
         for (i in titles.indices) {
-            movies.add(Film(posters.getResourceId(i, -1),
-                titles[i],
-                DateGenerator.modifyDateStringFormat(releaseDates[i]),
-                ratings[i],
+            movies.add(Film(
                 overviews[i],
-                durations[i],
-                genres[i]))
+                DateGenerator.modifyDateStringFormat(releaseDates[i]),
+                80.0,
+                ratings[i].toDouble()/10,
+                i,
+                titles[i],
+                120,
+                posters.getResourceId(i, -1).toString()))
         }
         moviesList.postValue(movies)
+        posters.recycle()
         return movies
     }
 
-    @SuppressLint("Recycle")
     fun getGenerateDummyTvShows(context: Context) : ArrayList<Film>{
         val tvShows = ArrayList<Film>()
         val titles = context.resources.getStringArray(R.array.tvshow_title)
-        val durations = context.resources.getStringArray(R.array.tvshow_duration)
-        val genres = context.resources.getStringArray(R.array.tvshow_genre)
         val overviews = context.resources.getStringArray(R.array.tvshow_overview)
         val posters = context.resources.obtainTypedArray(R.array.tvshow_poster)
         val ratings = context.resources.getIntArray(R.array.tvshow_rating)
         val releaseDates = context.resources.getStringArray(R.array.tvshow_releaseDate)
 
         for (i in titles.indices) {
-            tvShows.add(Film(posters.getResourceId(i, -1),
-                titles[i],
-                releaseDates[i],
-                ratings[i],
+            tvShows.add(Film(
                 overviews[i],
-                durations[i],
-                genres[i]))
+                DateGenerator.modifyDateStringFormat(releaseDates[i]),
+                80.0*i,
+                ratings[i].toDouble()/10,
+                i,
+                titles[i],
+                120*i,
+                posters.getResourceId(i, -1).toString()))
         }
         tvShowsList.postValue(tvShows)
+        posters.recycle()
         return tvShows
     }
 
