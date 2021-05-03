@@ -2,10 +2,10 @@ package com.thing.bangkit.thingjetpackkotlin.viemodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.thing.bangkit.thingjetpackkotlin.helper.FilmRepository
 import com.thing.bangkit.thingjetpackkotlin.model.Film
+import com.thing.bangkit.thingjetpackkotlin.repository.FilmRepository
 
-class FilmViewModel(private val repository: FilmRepository) : ViewModel() {
+class FilmViewModel (private val repository: FilmRepository) : ViewModel() {
 
     fun moviesData(): LiveData<ArrayList<Film>> = repository.getMoviesList()
     fun tvShowsData(): LiveData<ArrayList<Film>> = repository.getTvShowsList()

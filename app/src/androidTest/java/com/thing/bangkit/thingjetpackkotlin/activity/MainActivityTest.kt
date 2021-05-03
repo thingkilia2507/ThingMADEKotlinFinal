@@ -2,6 +2,7 @@ package com.thing.bangkit.thingjetpackkotlin.activity
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -9,10 +10,12 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.thing.bangkit.thingjetpackkotlin.R
-import com.thing.bangkit.thingjetpackkotlin.helper.FilmRepository
+import com.thing.bangkit.thingjetpackkotlin.helper.EspressoIdlingResource
+import com.thing.bangkit.thingjetpackkotlin.repository.FilmRepository
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.lang.Thread.sleep
 
 class MainActivityTest {
 
@@ -20,9 +23,13 @@ class MainActivityTest {
     var activityRule = ActivityScenarioRule(MainActivity::class.java)
 
 
+    @Before
+    fun setUp() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource())
+    }
+
     @Test
     fun loadMovie() {
-        sleep(2000)
         val movies = FilmRepository.getInstance().getMoviesList()
         onView(withId(R.id.tabs)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_list_film)).check(matches(isDisplayed()))
@@ -37,11 +44,9 @@ class MainActivityTest {
         val dummyMovie =
             movies.value?.get(0)?.let { FilmRepository.getInstance().getDetailFromId(it.id,1).value }
         dummyMovie?.let {
-            sleep(2000)
             onView(withId(R.id.rv_list_film)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 0,
                 click()))
-            sleep(2000)
             onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
             onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
             onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
@@ -66,7 +71,6 @@ class MainActivityTest {
         val tvShows = FilmRepository.getInstance().getTvShowsList()
         onView(withId(R.id.tabs)).check(matches(isDisplayed()))
         onView(withText("TV SHOWS")).perform(click())
-        sleep(2000)
         onView(withId(R.id.rv_list_film)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_list_film)).perform(tvShows.value?.size?.let {
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(it)
@@ -76,12 +80,9 @@ class MainActivityTest {
     @Test
     fun loadDetailTvShows() {
         val tvShows = FilmRepository.getInstance().getTvShowsList()
-        sleep(2000)
         onView(withId(R.id.tabs)).check(matches(isDisplayed()))
         onView(withText("TV SHOWS")).perform(click())
-        sleep(2000)
         onView(withId(R.id.rv_list_film)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,click()))
-        sleep(2000)
         val dummyTvShow = tvShows.value?.get(0)?.id?.let { FilmRepository.getInstance().getDetailFromId(it, 2).value }
         dummyTvShow?.let {
             onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
@@ -103,4 +104,8 @@ class MainActivityTest {
         }
     }
 
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource())
+    }
 }

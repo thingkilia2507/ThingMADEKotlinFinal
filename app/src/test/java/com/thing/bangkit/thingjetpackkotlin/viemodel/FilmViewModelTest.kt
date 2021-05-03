@@ -6,9 +6,9 @@ import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.test.core.app.ApplicationProvider
-import com.thing.bangkit.thingjetpackkotlin.helper.FilmRepository
 import com.thing.bangkit.thingjetpackkotlin.model.DummyFilm
 import com.thing.bangkit.thingjetpackkotlin.model.Film
+import com.thing.bangkit.thingjetpackkotlin.repository.FilmRepository
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before

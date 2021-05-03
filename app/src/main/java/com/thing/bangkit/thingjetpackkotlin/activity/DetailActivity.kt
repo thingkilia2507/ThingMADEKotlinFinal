@@ -5,14 +5,22 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.thing.bangkit.thingjetpackkotlin.R
 import com.thing.bangkit.thingjetpackkotlin.databinding.ActivityDetailBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.ContentDetailBinding
+import com.thing.bangkit.thingjetpackkotlin.factory.ViewModelFactory
+import com.thing.bangkit.thingjetpackkotlin.helper.EspressoIdlingResource
 import com.thing.bangkit.thingjetpackkotlin.helper.Utility.IMAGE_URL
 import com.thing.bangkit.thingjetpackkotlin.model.Film
+import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmFavViewModel
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmViewModel
-import com.thing.bangkit.thingjetpackkotlin.viemodel.ViewModelFactory
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class DetailActivity : AppCompatActivity() {
@@ -20,6 +28,9 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var contentBinding: ContentDetailBinding
     private lateinit var viewModel: FilmViewModel
+    private lateinit var viewModelFavViewModel: FilmFavViewModel
+    private var type: Int = -1
+
 
     companion object {
         const val EXTRA_FILM_ID = "extra_film_id"
@@ -39,14 +50,62 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val filmId = intent.getIntExtra(EXTRA_FILM_ID, -1)
-        val type = intent.getIntExtra(EXTRA_FILM_TYPE, -1)
+        type = intent.getIntExtra(EXTRA_FILM_TYPE, -1)
 
-        viewModel = ViewModelProvider(this, ViewModelFactory.getInstance())[FilmViewModel::class.java]
-        viewModel.getFilmsFromId(filmId, type).observe(this, {
+        viewModel = ViewModelProvider(this,
+            ViewModelFactory.getInstance(this@DetailActivity.application))[FilmViewModel::class.java]
+        viewModelFavViewModel = ViewModelProvider(this,
+            ViewModelFactory.getInstance(this@DetailActivity.application))[FilmFavViewModel::class.java]
+
+
+
+        EspressoIdlingResource.increment()
+        viewModel.getFilmsFromId(filmId, type).observe(this@DetailActivity, {
             bind(it)
-            binding.pbLoading.visibility = ProgressBar.GONE
         })
 
+
+    }
+
+    private fun checkingFavorite(film: Film) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val isFavorite = viewModelFavViewModel.getFavFilmFromId(film.id) != null
+            withContext(Dispatchers.Main) {
+                film.favorite = isFavorite
+                if (isFavorite) {
+                    contentBinding.ivFav.setImageResource(R.drawable.ic_favorite_yes)
+                }
+                else contentBinding.ivFav.setImageResource(R.drawable.ic_favorite_no)
+
+                favoriteListener(film)
+
+                binding.pbLoading.visibility = ProgressBar.GONE
+                if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow) {
+                    EspressoIdlingResource.decrement()
+                }
+            }
+        }
+    }
+
+
+    private suspend fun favoriteListener(film: Film) = Dispatchers.Main {
+        contentBinding.ivFav.setOnClickListener {
+            if (film.favorite) {
+                contentBinding.ivFav.setImageResource(R.drawable.ic_favorite_no)
+                film.favorite = false
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModelFavViewModel.deleteFavFilmFromId(film.id)
+                }
+                Toasty.error(this@DetailActivity, "Unfavorite : ${film.title}", Toasty.LENGTH_SHORT).show()
+            } else {
+                contentBinding.ivFav.setImageResource(R.drawable.ic_favorite_yes)
+                film.favorite = true
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModelFavViewModel.insertFavFilmData(film)
+                }
+                Toasty.success(this@DetailActivity, "Favorited ${film.title}", Toasty.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun bind(film: Film) {
@@ -71,6 +130,10 @@ class DetailActivity : AppCompatActivity() {
         contentBinding.tvReleaseDate.text = film.releaseDate
         contentBinding.tvVoteCount.text = StringBuilder("Vote Count : ${film.voteCount}")
         contentBinding.tvPopularity.text = StringBuilder("Popularity : ${film.popularity}")
+
+        film.myType = type
+        checkingFavorite(film)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -1,9 +1,11 @@
-package com.thing.bangkit.thingjetpackkotlin.helper
+package com.thing.bangkit.thingjetpackkotlin.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TYPE_ID_MOVIE
+import com.thing.bangkit.thingjetpackkotlin.helper.APIService
+import com.thing.bangkit.thingjetpackkotlin.helper.RetrofitBuild
 import com.thing.bangkit.thingjetpackkotlin.model.Film
 import com.thing.bangkit.thingjetpackkotlin.model.ValuesResponse
 import retrofit2.Call

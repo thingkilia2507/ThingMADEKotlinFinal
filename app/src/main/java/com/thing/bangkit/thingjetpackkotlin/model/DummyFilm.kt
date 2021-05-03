@@ -19,14 +19,14 @@ object DummyFilm {
 
         for (i in titles.indices) {
             movies.add(Film(
+                i,
                 overviews[i],
                 DateGenerator.modifyDateStringFormat(releaseDates[i]),
                 80.0,
                 ratings[i].toDouble()/10,
-                i,
                 titles[i],
                 120,
-                posters.getResourceId(i, -1).toString()))
+                posters.getResourceId(i, -1).toString(),1))
         }
         moviesList.postValue(movies)
         posters.recycle()
@@ -43,14 +43,14 @@ object DummyFilm {
 
         for (i in titles.indices) {
             tvShows.add(Film(
+                i,
                 overviews[i],
                 DateGenerator.modifyDateStringFormat(releaseDates[i]),
                 80.0*i,
                 ratings[i].toDouble()/10,
-                i,
                 titles[i],
                 120*i,
-                posters.getResourceId(i, -1).toString()))
+                posters.getResourceId(i, -1).toString(),2))
         }
         tvShowsList.postValue(tvShows)
         posters.recycle()
