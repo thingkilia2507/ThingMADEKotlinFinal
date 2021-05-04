@@ -7,6 +7,12 @@ import com.thing.bangkit.thingjetpackkotlin.helper.DateGenerator
 
 object DummyFilm {
 
+    private var ins : Map<Boolean,Film?> = mapOf(
+        false to null
+    )
+    private var del : Map<Boolean,Int> = mapOf(
+        false to 0
+    )
     private val moviesList = MutableLiveData<ArrayList<Film>>()
     private val tvShowsList = MutableLiveData<ArrayList<Film>>()
     fun getGenerateDummyMovies(context: Context) : ArrayList<Film> {
@@ -32,7 +38,6 @@ object DummyFilm {
         posters.recycle()
         return movies
     }
-
     fun getGenerateDummyTvShows(context: Context) : ArrayList<Film>{
         val tvShows = ArrayList<Film>()
         val titles = context.resources.getStringArray(R.array.tvshow_title)
@@ -52,6 +57,22 @@ object DummyFilm {
                 120*i,
                 posters.getResourceId(i, -1).toString(),2))
         }
+        ins.let {
+            if(it.containsKey(true)) {
+                it[true]?.let { film ->
+                    tvShows.add(film)
+                }
+            }
+        }
+
+        del.let {
+            if (it.containsKey(true)) {
+                it[true]?.let {id ->
+                    tvShows.removeAt(id)
+                }
+            }
+        }
+
         tvShowsList.postValue(tvShows)
         posters.recycle()
         return tvShows
@@ -67,5 +88,18 @@ object DummyFilm {
 
     }
 
+    fun insertTvShow(film: Film) {
+        ins = mapOf(
+            true to film
+        )
+    }
+
+
+    fun deleteTvShow(id: Int) : Int {
+        del = mapOf(
+            true to id
+        )
+        return 1
+    }
 
 }
