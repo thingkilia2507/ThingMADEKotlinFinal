@@ -153,7 +153,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun loadDetailMovieFav() { //you need to add first movie as favorited first
+    fun loadDetailMovieFav() { //you need to add first movie as favorite first
         val movies = FilmRepository.getInstance().getMoviesList()
         val dummyMovie = movies.value?.get(0)?.let { FilmRepository.getInstance().getDetailFromId(it.id,1).value }
         dummyMovie?.let {
@@ -206,7 +206,7 @@ class MainActivityTest {
         onView(withText("TV SHOWS")).perform(click())
         sleep(3000) //need it for not being ambiguous although I already use idling resource because I use same interface for 2 kind of activity
         onView(withId(R.id.rv_list_film)).check(matches(isDisplayed()))
-        //favorite first tvshow
+        //favorite first tv show
         onView(withId(R.id.rv_list_film)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,click()))
         onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
         onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
@@ -214,7 +214,7 @@ class MainActivityTest {
         onView(withId(R.id.iv_fav)).perform(click())
         onView(isRoot()).perform(pressBack())
 
-        //favorite second tvshow
+        //favorite second tv show
         onView(withId(R.id.rv_list_film)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
             1,
             click()))
@@ -224,7 +224,7 @@ class MainActivityTest {
         onView(withId(R.id.iv_fav)).perform(click())
         onView(isRoot()).perform(pressBack())
 
-        //favorite third tvshow
+        //favorite third tv show
         onView(withId(R.id.rv_list_film)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
             2,
             click()))
@@ -244,7 +244,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun loadDetailTvShowsFav() {//you need to add first tvshow as favorited first
+    fun loadDetailTvShowsFav() {//you need to add first tv show as favorite first
         val tvShows = FilmRepository.getInstance().getTvShowsList()
         val dummyTvShow = tvShows.value?.get(0)?.id?.let { FilmRepository.getInstance().getDetailFromId(it, 2).value }
 
@@ -253,7 +253,7 @@ class MainActivityTest {
             onView(withText("TV SHOWS")).perform(click())
             sleep(3000) //need it for not being ambiguous although I already use idling resource because I use same interface for 2 kind of activity
             onView(withId(R.id.rv_list_film)).check(matches(isDisplayed()))
-            //remove second tvshow from favorite
+            //remove second tv show from favorite
             onView(withId(R.id.rv_list_film)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
             onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
             onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
@@ -261,7 +261,7 @@ class MainActivityTest {
             onView(withId(R.id.iv_fav)).perform(click())
             onView(isRoot()).perform(pressBack())
 
-            //remove third tvshow from favorite
+            //remove third tv show from favorite
             onView(withId(R.id.rv_list_film)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click()))
             onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())
             onView(withId(R.id.swipeIt)).perform(ViewActions.swipeUp())

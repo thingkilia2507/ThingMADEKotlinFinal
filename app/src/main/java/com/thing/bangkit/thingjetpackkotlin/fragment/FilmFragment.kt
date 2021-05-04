@@ -31,7 +31,7 @@ class FilmFragment : Fragment() {
 
     companion object {
         private const val ARG_POSITION_BUNDLE = "BUNDLE_POSITION"
-        private const val ARG_PAGE_TYPE = "TYPE_PAGE_ISFAVORITE"
+        private const val ARG_PAGE_TYPE = "TYPE_PAGE_IS_FAVORITE"
 
         @JvmStatic
         fun newInstance(position: Int, pageType: Int) =

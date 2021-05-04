@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.thing.bangkit.thingjetpackkotlin.fragment.FilmFragment
 
-class SectionPagerAdapter(activity: AppCompatActivity, var pageType : Int= 0) : FragmentStateAdapter(activity) {
+class SectionPagerAdapter(activity: AppCompatActivity, private var pageType : Int= 0) : FragmentStateAdapter(activity) {
 
     override fun getItemCount(): Int = 2
 

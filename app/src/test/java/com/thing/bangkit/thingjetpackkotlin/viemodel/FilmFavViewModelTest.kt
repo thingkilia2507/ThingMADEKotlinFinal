@@ -106,7 +106,7 @@ class FilmFavViewModelTest {
         Shadows.shadowOf(Looper.getMainLooper()).idle()
         `when`(localFilmFavRepository.insertFavFilm(dummyFilm)).then { DummyFilm.insertTvShow(dummyFilm)}
 
-        //initalSize of the list
+        //inital Size of the list
         val initialSizeFavFilm = viewModelFav.favTvShowsData().value?.size
 
         //insert film
@@ -136,7 +136,7 @@ class FilmFavViewModelTest {
         val id = 1
         `when`(localFilmFavRepository.deleteById(id)).thenReturn(DummyFilm.deleteTvShow(id))
 
-        //initalSize of the list = 12
+        //inital Size of the list = 12
         val initialSizeFavFilm = viewModelFav.favTvShowsData().value?.size
 
         //delete it

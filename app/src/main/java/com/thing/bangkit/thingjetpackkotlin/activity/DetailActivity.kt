@@ -96,14 +96,14 @@ class DetailActivity : AppCompatActivity() {
                 lifecycleScope.launch(Dispatchers.IO) {
                     viewModelFavViewModel.deleteFavFilmFromId(film.id)
                 }
-                Toasty.error(this@DetailActivity, "Unfavorite : ${film.title}", Toasty.LENGTH_SHORT).show()
+                Toasty.error(this@DetailActivity, "UnFavorite : ${film.title}", Toasty.LENGTH_SHORT).show()
             } else {
                 contentBinding.ivFav.setImageResource(R.drawable.ic_favorite_yes)
                 film.favorite = true
                 lifecycleScope.launch(Dispatchers.IO) {
                     viewModelFavViewModel.insertFavFilmData(film)
                 }
-                Toasty.success(this@DetailActivity, "Favorited ${film.title}", Toasty.LENGTH_SHORT).show()
+                Toasty.success(this@DetailActivity, "Favorite : ${film.title}", Toasty.LENGTH_SHORT).show()
             }
         }
     }

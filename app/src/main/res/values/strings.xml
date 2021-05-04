@@ -9,6 +9,7 @@
     <string name="detail">Detail</string>
     <string name="movies">Movies</string>
     <string name="tvshows">Tv Shows</string>
+    <string name="favorite">Favorite</string>
 
     <integer-array name="movie_poster">
         <item>@drawable/poster_a_little_called_love</item>
