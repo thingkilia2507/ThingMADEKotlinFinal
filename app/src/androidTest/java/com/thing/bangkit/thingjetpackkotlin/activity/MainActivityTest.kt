@@ -109,14 +109,14 @@ class MainActivityTest {
 
     //------Favorite
 
-    /*@Test
+    @Test
     fun loadEmptyFavorite() { //Only True If there is no Favorite Films
         onView(withId(R.id.menu_fav)).perform(click())
         onView(withId(R.id.tabs)).check(matches(isDisplayed()))
         onView(withId(R.id.iv_compact_empty)).check(matches(isDisplayed())) //emptyMovieFavorite
         onView(withText("TV SHOWS")).perform(click())
         onView(withId(R.id.iv_compact_empty)).check(matches(isDisplayed())) //emptyTvShowFavorite
-    }*/
+    }
 
     @Test
     fun loadMovieFavorite() {
