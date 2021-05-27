@@ -1,15 +1,11 @@
-package com.thing.bangkit.thingjetpackkotlin.model
+package com.thing.bangkit.thingjetpackkotlin.core.data.remote
 
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-@Entity
 @Parcelize
-data class Film(
-    @PrimaryKey
+data class FilmResponse(
     @field:SerializedName("id")
     val id: Int,
 

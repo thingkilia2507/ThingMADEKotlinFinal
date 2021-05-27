@@ -10,12 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TYPE_ID_MOVIE
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TYPE_ID_TV_SHOW
-import com.thing.bangkit.thingjetpackkotlin.adapter.FilmAdapter
-import com.thing.bangkit.thingjetpackkotlin.adapter.FilmFavAdapter
+import com.thing.bangkit.thingjetpackkotlin.core.helper.EspressoIdlingResource
+import com.thing.bangkit.thingjetpackkotlin.core.ui.adapter.FilmAdapter
+import com.thing.bangkit.thingjetpackkotlin.core.ui.adapter.FilmFavAdapter
+import com.thing.bangkit.thingjetpackkotlin.core.ui.factory.ViewModelFactory
 import com.thing.bangkit.thingjetpackkotlin.databinding.ContentFragmentListBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.FragmentFilmBinding
-import com.thing.bangkit.thingjetpackkotlin.factory.ViewModelFactory
-import com.thing.bangkit.thingjetpackkotlin.helper.EspressoIdlingResource
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmFavViewModel
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmViewModel
 import kotlinx.coroutines.Dispatchers
@@ -49,8 +49,8 @@ class FilmFragment : Fragment() {
     ): View {
         fragmentFilmBinding = FragmentFilmBinding.inflate(inflater, container, false)
         binding = fragmentFilmBinding.contentFragmentList
-        viewModel = ViewModelProvider(requireActivity(), ViewModelFactory.getInstance(requireActivity().application))[FilmViewModel::class.java]
-        viewModelFav = ViewModelProvider(requireActivity(), ViewModelFactory.getInstance(requireActivity().application))[FilmFavViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity(), ViewModelFactory.getInstance(requireActivity()))[FilmViewModel::class.java]
+        viewModelFav = ViewModelProvider(requireActivity(), ViewModelFactory.getInstance(requireActivity()))[FilmFavViewModel::class.java]
         return fragmentFilmBinding.root
     }
 
@@ -90,7 +90,7 @@ class FilmFragment : Fragment() {
             } else {
                 val adapter = FilmAdapter()
                 adapter.type = TYPE_ID_MOVIE
-                viewModel.moviesData().observe(this, {
+                viewModel.moviesData().observe(viewLifecycleOwner, {
                     adapter.listFilm = it
                     setEmptyView(it.size < 1, adapter)
 
@@ -119,7 +119,7 @@ class FilmFragment : Fragment() {
             } else {
                 val adapter = FilmAdapter()
                 adapter.type = TYPE_ID_TV_SHOW
-                viewModel.tvShowsData().observe(this, {
+                viewModel.tvShowsData().observe(viewLifecycleOwner, {
                     adapter.listFilm = it
                     setEmptyView(it.size < 1, adapter)
 

@@ -1,4 +1,4 @@
-package com.thing.bangkit.thingjetpackkotlin.adapter
+package com.thing.bangkit.thingjetpackkotlin.core.ui.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -13,8 +13,8 @@ import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.EXTRA_FILM_ID
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.EXTRA_FILM_TYPE
 import com.thing.bangkit.thingjetpackkotlin.databinding.CardItemListFilmBinding
-import com.thing.bangkit.thingjetpackkotlin.helper.Utility.IMAGE_URL
-import com.thing.bangkit.thingjetpackkotlin.model.Film
+import com.thing.bangkit.thingjetpackkotlin.core.helper.UtilityURL.IMAGE_URL
+import com.thing.bangkit.thingjetpackkotlin.core.domain.model.Film
 
 class FilmAdapter : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
 

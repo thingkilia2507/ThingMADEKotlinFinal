@@ -11,8 +11,8 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.thing.bangkit.thingjetpackkotlin.R
-import com.thing.bangkit.thingjetpackkotlin.helper.EspressoIdlingResource
-import com.thing.bangkit.thingjetpackkotlin.repository.FilmRepository
+import com.thing.bangkit.thingjetpackkotlin.core.data.remote.RemoteFilmRepository
+import com.thing.bangkit.thingjetpackkotlin.core.helper.EspressoIdlingResource
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -32,7 +32,7 @@ class MainActivityTest {
 
     @Test
     fun loadMovie() {
-        val movies = FilmRepository.getInstance().getMoviesList()
+        val movies = RemoteFilmRepository.getInstance().getMoviesList()
         onView(withId(R.id.tabs)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_list_film)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_list_film)).perform(movies.value?.size?.let {
@@ -42,9 +42,9 @@ class MainActivityTest {
 
     @Test
     fun loadDetailMovie() {
-        val movies = FilmRepository.getInstance().getMoviesList()
+        val movies = RemoteFilmRepository.getInstance().getMoviesList()
         val dummyMovie =
-            movies.value?.get(0)?.let { FilmRepository.getInstance().getDetailFromId(it.id,1).value }
+            movies.value?.get(0)?.let { RemoteFilmRepository.getInstance().getDetailFromId(it.id,1).value }
         dummyMovie?.let {
             onView(withId(R.id.rv_list_film)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 0,
@@ -70,7 +70,7 @@ class MainActivityTest {
 
     @Test
     fun loadTvShows() {
-        val tvShows = FilmRepository.getInstance().getTvShowsList()
+        val tvShows = RemoteFilmRepository.getInstance().getTvShowsList()
         onView(withId(R.id.tabs)).check(matches(isDisplayed()))
         onView(withText("TV SHOWS")).perform(click())
         onView(withId(R.id.rv_list_film)).check(matches(isDisplayed()))
@@ -81,8 +81,8 @@ class MainActivityTest {
 
     @Test
     fun loadDetailTvShows() {
-        val tvShows = FilmRepository.getInstance().getTvShowsList()
-         val dummyTvShow = tvShows.value?.get(0)?.id?.let { FilmRepository.getInstance().getDetailFromId(it, 2).value }
+        val tvShows = RemoteFilmRepository.getInstance().getTvShowsList()
+         val dummyTvShow = tvShows.value?.get(0)?.id?.let { RemoteFilmRepository.getInstance().getDetailFromId(it, 2).value }
         dummyTvShow?.let {
             onView(withId(R.id.tabs)).check(matches(isDisplayed()))
             onView(withText("TV SHOWS")).perform(click())
@@ -154,8 +154,8 @@ class MainActivityTest {
 
     @Test
     fun loadDetailMovieFav() { //you need to add first movie as favorite first
-        val movies = FilmRepository.getInstance().getMoviesList()
-        val dummyMovie = movies.value?.get(0)?.let { FilmRepository.getInstance().getDetailFromId(it.id,1).value }
+        val movies = RemoteFilmRepository.getInstance().getMoviesList()
+        val dummyMovie = movies.value?.get(0)?.let { RemoteFilmRepository.getInstance().getDetailFromId(it.id,1).value }
         dummyMovie?.let {
             //remove second movie from favorite
             onView(withId(R.id.rv_list_film)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
@@ -245,8 +245,8 @@ class MainActivityTest {
 
     @Test
     fun loadDetailTvShowsFav() {//you need to add first tv show as favorite first
-        val tvShows = FilmRepository.getInstance().getTvShowsList()
-        val dummyTvShow = tvShows.value?.get(0)?.id?.let { FilmRepository.getInstance().getDetailFromId(it, 2).value }
+        val tvShows = RemoteFilmRepository.getInstance().getTvShowsList()
+        val dummyTvShow = tvShows.value?.get(0)?.id?.let { RemoteFilmRepository.getInstance().getDetailFromId(it, 2).value }
 
         dummyTvShow?.let {
             onView(withId(R.id.tabs)).check(matches(isDisplayed()))

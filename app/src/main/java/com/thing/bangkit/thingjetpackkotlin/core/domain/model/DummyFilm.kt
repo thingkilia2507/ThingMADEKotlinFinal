@@ -1,13 +1,13 @@
-package com.thing.bangkit.thingjetpackkotlin.model
+package com.thing.bangkit.thingjetpackkotlin.core.domain.model
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.thing.bangkit.thingjetpackkotlin.R
-import com.thing.bangkit.thingjetpackkotlin.helper.DateGenerator
+import com.thing.bangkit.thingjetpackkotlin.core.helper.DateGenerator
 
 object DummyFilm {
 
-    private var ins : Map<Boolean,Film?> = mapOf(
+    private var ins : Map<Boolean, Film?> = mapOf(
         false to null
     )
     private var del : Map<Boolean,Int> = mapOf(

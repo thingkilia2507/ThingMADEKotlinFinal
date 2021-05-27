@@ -1,4 +1,4 @@
-package com.thing.bangkit.thingjetpackkotlin.adapter
+package com.thing.bangkit.thingjetpackkotlin.core.ui.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

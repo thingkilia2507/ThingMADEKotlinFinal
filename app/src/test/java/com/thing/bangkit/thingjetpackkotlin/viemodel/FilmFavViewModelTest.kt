@@ -8,9 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
 import androidx.test.core.app.ApplicationProvider
-import com.thing.bangkit.thingjetpackkotlin.model.DummyFilm
-import com.thing.bangkit.thingjetpackkotlin.model.Film
-import com.thing.bangkit.thingjetpackkotlin.repository.LocalDataFavRepository
+import com.thing.bangkit.thingjetpackkotlin.core.data.FilmRepository
+import com.thing.bangkit.thingjetpackkotlin.core.di.Injection
+import com.thing.bangkit.thingjetpackkotlin.core.domain.model.DummyFilm
+import com.thing.bangkit.thingjetpackkotlin.core.domain.model.Film
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -35,7 +36,7 @@ class FilmFavViewModelTest {
 
 
     @Mock
-    private lateinit var localFilmFavRepository: LocalDataFavRepository
+    private lateinit var repository: FilmRepository
 
     @Mock
     private lateinit var observer: Observer<PagedList<Film>>
@@ -44,7 +45,7 @@ class FilmFavViewModelTest {
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(this)
-        viewModelFav = FilmFavViewModel(localFilmFavRepository)
+        viewModelFav = FilmFavViewModel(Injection.provideFilmUseCase(context))
     }
 
 
@@ -53,7 +54,7 @@ class FilmFavViewModelTest {
         val expectMovies = MutableLiveData<PagedList<Film>>()
         expectMovies.value =  PagedTestDataSources.snapshot(DummyFilm.getGenerateDummyMovies(context))
 
-        `when`(localFilmFavRepository.getAllFavMovie()).thenReturn(expectMovies)
+        `when`(repository.getAllFavMovie()).thenReturn(expectMovies)
 
         Shadows.shadowOf(Looper.getMainLooper()).idle()
         viewModelFav.favMoviesData().observeForever(observer)
@@ -73,7 +74,7 @@ class FilmFavViewModelTest {
         val expectTvShows = MutableLiveData<PagedList<Film>>()
         expectTvShows.value = PagedTestDataSources.snapshot(DummyFilm.getGenerateDummyTvShows(context))
 
-        `when`(localFilmFavRepository.getAllFavTvShow()).thenReturn(expectTvShows)
+        `when`(repository.getAllFavTvShow()).thenReturn(expectTvShows)
 
         viewModelFav.favTvShowsData().observeForever(observer)
         verify(observer).onChanged(expectTvShows.value)
@@ -90,7 +91,7 @@ class FilmFavViewModelTest {
     fun getFavFilmFromId() {
         val dummyFilm = DummyFilm.getGenerateDummyMovies(context)[0]
         val filmId = dummyFilm.id
-        `when`(localFilmFavRepository.getFavFilmById(filmId)).thenReturn(dummyFilm)
+        `when`(repository.getFavFilmById(filmId)).thenReturn(dummyFilm)
         val actualValue = viewModelFav.getFavFilmFromId(filmId)
         assertEquals(dummyFilm, actualValue)
     }
@@ -99,12 +100,12 @@ class FilmFavViewModelTest {
     fun insertFavFilmData() {
         val dummy = MutableLiveData<PagedList<Film>>()
         dummy.value = PagedTestDataSources.snapshot(DummyFilm.getGenerateDummyTvShows(context))
-        `when`(localFilmFavRepository.getAllFavTvShow()).thenReturn(dummy)
+        `when`(repository.getAllFavTvShow()).thenReturn(dummy)
 
         val dummyFilm = DummyFilm.getGenerateDummyTvShows(context)[0]
 
         Shadows.shadowOf(Looper.getMainLooper()).idle()
-        `when`(localFilmFavRepository.insertFavFilm(dummyFilm)).then { DummyFilm.insertTvShow(dummyFilm)}
+        `when`(repository.insertFavFilm(dummyFilm)).then { DummyFilm.insertTvShow(dummyFilm)}
 
         //inital Size of the list
         val initialSizeFavFilm = viewModelFav.favTvShowsData().value?.size
@@ -130,11 +131,11 @@ class FilmFavViewModelTest {
     fun deleteFavFilmFromId() {
         val dummy = MutableLiveData<PagedList<Film>>()
         dummy.value = PagedTestDataSources.snapshot(DummyFilm.getGenerateDummyTvShows(context))
-        `when`(localFilmFavRepository.getAllFavTvShow()).thenReturn(dummy)
+        `when`(repository.getAllFavTvShow()).thenReturn(dummy)
 
         //you can change the id : 0-11 (based on the list size)
         val id = 1
-        `when`(localFilmFavRepository.deleteById(id)).thenReturn(DummyFilm.deleteTvShow(id))
+        `when`(repository.deleteById(id)).thenReturn(DummyFilm.deleteTvShow(id))
 
         //inital Size of the list = 12
         val initialSizeFavFilm = viewModelFav.favTvShowsData().value?.size

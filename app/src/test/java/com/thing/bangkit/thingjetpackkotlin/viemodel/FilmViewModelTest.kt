@@ -6,9 +6,10 @@ import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.test.core.app.ApplicationProvider
-import com.thing.bangkit.thingjetpackkotlin.model.DummyFilm
-import com.thing.bangkit.thingjetpackkotlin.model.Film
-import com.thing.bangkit.thingjetpackkotlin.repository.FilmRepository
+import com.thing.bangkit.thingjetpackkotlin.core.data.FilmRepository
+import com.thing.bangkit.thingjetpackkotlin.core.di.Injection
+import com.thing.bangkit.thingjetpackkotlin.core.domain.model.DummyFilm
+import com.thing.bangkit.thingjetpackkotlin.core.domain.model.Film
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -30,7 +31,7 @@ import org.robolectric.annotation.LooperMode
 class FilmViewModelTest {
     private val context: Context = ApplicationProvider.getApplicationContext()
     private lateinit var viewModel: FilmViewModel
-    private lateinit var filmRepository: FilmRepository
+    private lateinit var repository: FilmRepository
 
     @Mock
     private lateinit var listObserver: Observer<ArrayList<Film>>
@@ -40,9 +41,9 @@ class FilmViewModelTest {
 
     @Before
     fun setUp() {
-        filmRepository = Mockito.mock(FilmRepository::class.java)
+        repository = Mockito.mock(FilmRepository::class.java)
         MockitoAnnotations.openMocks(this)
-        viewModel = FilmViewModel(filmRepository)
+        viewModel = FilmViewModel(Injection.provideFilmUseCase(context))
     }
 
     @Test
@@ -51,9 +52,9 @@ class FilmViewModelTest {
         val movies = MutableLiveData<ArrayList<Film>>()
         movies.value = dummyMovie
 
-        `when`(filmRepository.getMoviesList()).thenReturn(movies)
+        `when`(repository.getMoviesList()).thenReturn(movies)
         val moviesEntities = viewModel.moviesData().value
-        verify(filmRepository).getMoviesList()
+        verify(repository).getMoviesList()
         assertNotNull(moviesEntities)
         assertEquals(12, moviesEntities?.size)
 
@@ -68,9 +69,9 @@ class FilmViewModelTest {
         val tvShows = MutableLiveData<ArrayList<Film>>()
         tvShows.value = dummyTvShow
 
-        `when`(filmRepository.getTvShowsList()).thenReturn(tvShows)
+        `when`(repository.getTvShowsList()).thenReturn(tvShows)
         val tvShowsEntities = viewModel.tvShowsData().value
-        verify(filmRepository).getTvShowsList()
+        verify(repository).getTvShowsList()
         assertNotNull(tvShowsEntities)
         assertEquals(12, tvShowsEntities?.size)
 
@@ -90,9 +91,9 @@ class FilmViewModelTest {
         val films = MutableLiveData<Film>()
         films.value = dummyFilm
 
-        `when`(filmRepository.getDetailFromId(0,1)).thenReturn(films)
+        `when`(repository.getDetailFromId(0,1)).thenReturn(films)
         val filmEntities = viewModel.getFilmsFromId(0, 1).value
-        verify(filmRepository).getDetailFromId(0,1)
+        verify(repository).getDetailFromId(0,1)
         assertNotNull(filmEntities)
 
         Shadows.shadowOf(Looper.getMainLooper()).idle()

@@ -1,24 +1,26 @@
-package com.thing.bangkit.thingjetpackkotlin.factory
+package com.thing.bangkit.thingjetpackkotlin.core.ui.factory
 
-import android.app.Application
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.thing.bangkit.thingjetpackkotlin.helper.Injection
+import com.thing.bangkit.thingjetpackkotlin.core.di.Injection
+import com.thing.bangkit.thingjetpackkotlin.core.domain.usecase.FilmUseCase
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmFavViewModel
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmViewModel
 
-class ViewModelFactory private constructor(private val mApplication: Application) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory private constructor(private val useCase: FilmUseCase) : ViewModelProvider.NewInstanceFactory() {
 
     companion object {
         @Volatile
         private var INSTANCE: ViewModelFactory? = null
 
         @JvmStatic
-        fun getInstance(application: Application): ViewModelFactory =
+        fun getInstance(context: Context): ViewModelFactory =
             INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                INSTANCE ?: ViewModelFactory(application).apply {
-                    INSTANCE = this
-                }
+                INSTANCE ?: ViewModelFactory(
+                    Injection.provideFilmUseCase(context)
+                )
+
             }
     }
 
@@ -27,10 +29,10 @@ class ViewModelFactory private constructor(private val mApplication: Application
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(FilmViewModel::class.java) -> {
-                FilmViewModel(Injection.provideRepository()) as T
+                FilmViewModel(useCase) as T
             }
             modelClass.isAssignableFrom(FilmFavViewModel::class.java)->{
-                FilmFavViewModel(Injection.provideFavRepository(mApplication)) as T
+                FilmFavViewModel(useCase) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

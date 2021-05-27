@@ -1,31 +1,28 @@
-package com.thing.bangkit.thingjetpackkotlin.repository
+package com.thing.bangkit.thingjetpackkotlin.core.data.remote
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TYPE_ID_MOVIE
-import com.thing.bangkit.thingjetpackkotlin.helper.APIService
-import com.thing.bangkit.thingjetpackkotlin.helper.RetrofitBuild
-import com.thing.bangkit.thingjetpackkotlin.model.Film
-import com.thing.bangkit.thingjetpackkotlin.model.ValuesResponse
+import com.thing.bangkit.thingjetpackkotlin.core.helper.RetrofitBuild
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FilmRepository {
+class RemoteFilmRepository {
 
-    private val _moviesList = MutableLiveData<ArrayList<Film>>()
-    private val _tvShowsList = MutableLiveData<ArrayList<Film>>()
-    private val _film = MutableLiveData<Film>()
+    private val _moviesList = MutableLiveData<ArrayList<FilmResponse>>()
+    private val _tvShowsList = MutableLiveData<ArrayList<FilmResponse>>()
+    private val _film = MutableLiveData<FilmResponse>()
 
-    fun getMoviesList(): LiveData<ArrayList<Film>> {
-        RetrofitBuild.instance().create(APIService::class.java).getMovieList()
+    fun getMoviesList(): LiveData<ArrayList<FilmResponse>> {
+        RetrofitBuild.instance().getMovieList()
             .enqueue(callbackList(1))
         return _moviesList
     }
 
-    fun getTvShowsList(): LiveData<ArrayList<Film>> {
-        RetrofitBuild.instance().create(APIService::class.java).getTvShowList()
+    fun getTvShowsList(): LiveData<ArrayList<FilmResponse>> {
+        RetrofitBuild.instance().getTvShowList()
             .enqueue(callbackList(2))
         return _tvShowsList
     }
@@ -51,20 +48,20 @@ class FilmRepository {
 
     }
 
-    fun getDetailFromId(id: Int, type: Int): LiveData<Film> {
+    fun getDetailFromId(id: Int, type: Int): LiveData<FilmResponse> {
         if (type == TYPE_ID_MOVIE) {
-            RetrofitBuild.instance().create(APIService::class.java).getMovie(id.toString())
+            RetrofitBuild.instance().getMovie(id.toString())
                 .enqueue(callbackFilm())
         } else {
-            RetrofitBuild.instance().create(APIService::class.java).getTvShow(id.toString())
+            RetrofitBuild.instance().getTvShow(id.toString())
                 .enqueue(callbackFilm())
         }
         return _film
     }
 
-    private fun callbackFilm(): Callback<Film> {
-        return object : Callback<Film>{
-            override fun onResponse(call: Call<Film>, response: Response<Film>) {
+    private fun callbackFilm(): Callback<FilmResponse> {
+        return object : Callback<FilmResponse>{
+            override fun onResponse(call: Call<FilmResponse>, response: Response<FilmResponse>) {
                 if (response.isSuccessful) {
                     _film.value = response.body()
                 } else {
@@ -72,7 +69,7 @@ class FilmRepository {
                 }
             }
 
-            override fun onFailure(call: Call<Film>, t: Throwable) {
+            override fun onFailure(call: Call<FilmResponse>, t: Throwable) {
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
 
@@ -82,11 +79,11 @@ class FilmRepository {
     companion object {
         const val TAG = "TagThing"
         @Volatile
-        private var instance: FilmRepository? = null
+        private var instance: RemoteFilmRepository? = null
 
-        fun getInstance(): FilmRepository =
+        fun getInstance(): RemoteFilmRepository =
             instance ?: synchronized(this) {
-                instance ?: FilmRepository().apply { instance = this }
+                instance ?: RemoteFilmRepository().apply { instance = this }
             }
 
     }

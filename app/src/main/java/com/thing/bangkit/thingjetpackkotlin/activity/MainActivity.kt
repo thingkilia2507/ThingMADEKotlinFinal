@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayoutMediator
 import com.thing.bangkit.thingjetpackkotlin.R
-import com.thing.bangkit.thingjetpackkotlin.adapter.SectionPagerAdapter
+import com.thing.bangkit.thingjetpackkotlin.core.ui.adapter.SectionPagerAdapter
 import com.thing.bangkit.thingjetpackkotlin.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

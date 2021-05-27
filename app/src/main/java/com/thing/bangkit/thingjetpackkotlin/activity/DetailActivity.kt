@@ -8,12 +8,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.thing.bangkit.thingjetpackkotlin.R
+import com.thing.bangkit.thingjetpackkotlin.core.domain.model.Film
+import com.thing.bangkit.thingjetpackkotlin.core.helper.EspressoIdlingResource
+import com.thing.bangkit.thingjetpackkotlin.core.helper.UtilityURL.IMAGE_URL
+import com.thing.bangkit.thingjetpackkotlin.core.ui.factory.ViewModelFactory
 import com.thing.bangkit.thingjetpackkotlin.databinding.ActivityDetailBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.ContentDetailBinding
-import com.thing.bangkit.thingjetpackkotlin.factory.ViewModelFactory
-import com.thing.bangkit.thingjetpackkotlin.helper.EspressoIdlingResource
-import com.thing.bangkit.thingjetpackkotlin.helper.Utility.IMAGE_URL
-import com.thing.bangkit.thingjetpackkotlin.model.Film
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmFavViewModel
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmViewModel
 import es.dmoral.toasty.Toasty
@@ -53,9 +53,9 @@ class DetailActivity : AppCompatActivity() {
         type = intent.getIntExtra(EXTRA_FILM_TYPE, -1)
 
         viewModel = ViewModelProvider(this,
-            ViewModelFactory.getInstance(this@DetailActivity.application))[FilmViewModel::class.java]
+            ViewModelFactory.getInstance(this@DetailActivity))[FilmViewModel::class.java]
         viewModelFavViewModel = ViewModelProvider(this,
-            ViewModelFactory.getInstance(this@DetailActivity.application))[FilmFavViewModel::class.java]
+            ViewModelFactory.getInstance(this@DetailActivity))[FilmFavViewModel::class.java]
 
 
 

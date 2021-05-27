@@ -1,6 +1,6 @@
-package com.thing.bangkit.thingjetpackkotlin.helper
+package com.thing.bangkit.thingjetpackkotlin.core.helper
 
-object Utility {
+object UtilityURL {
 
     const val BASE_URL = "https://api.themoviedb.org/3/"
     const val IMAGE_URL = "https://image.tmdb.org/t/p/w500"

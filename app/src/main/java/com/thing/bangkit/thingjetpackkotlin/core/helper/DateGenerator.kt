@@ -1,4 +1,4 @@
-package com.thing.bangkit.thingjetpackkotlin.helper
+package com.thing.bangkit.thingjetpackkotlin.core.helper
 
 import java.text.SimpleDateFormat
 import java.util.*
