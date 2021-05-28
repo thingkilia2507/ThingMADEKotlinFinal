@@ -2,32 +2,21 @@ package com.thing.bangkit.thingjetpackkotlin.core.data.remote
 
 import android.util.Log
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity
-import com.thing.bangkit.thingjetpackkotlin.core.helper.RetrofitBuild
+import com.thing.bangkit.thingjetpackkotlin.core.helper.APIService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class RemoteFilmRepository {
+class RemoteFilmRepository(private val apiService: APIService) {
 
-    companion object {
-        const val TAG = "TagThing"
-        @Volatile
-        private var instance: RemoteFilmRepository? = null
-
-        fun getInstance(): RemoteFilmRepository =
-            instance ?: synchronized(this) {
-                instance ?: RemoteFilmRepository().apply { instance = this }
-            }
-
-    }
     suspend fun getMoviesList(): Flow<ArrayList<FilmResponse>> {
-        return flowList(RetrofitBuild.instance().getMovieList())
+        return flowList(apiService.getMovieList())
 
     }
 
     suspend fun getTvShowsList(): Flow<ArrayList<FilmResponse>> {
-        return flowList(RetrofitBuild.instance().getTvShowList())
+        return flowList(apiService.getTvShowList())
     }
 
     private suspend fun flowList(response: ValuesResponse) = flow {
@@ -43,9 +32,9 @@ class RemoteFilmRepository {
 
     suspend fun getDetailFromId(id: Int, type: Int): Flow<FilmResponse> {
         val response = if (type == DetailActivity.TYPE_ID_MOVIE) {
-            RetrofitBuild.instance().getMovie(id.toString())
+            apiService.getMovie(id.toString())
         } else {
-            RetrofitBuild.instance().getTvShow(id.toString())
+            apiService.getTvShow(id.toString())
         }
         return flowList(response)
     }

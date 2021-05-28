@@ -44,6 +44,7 @@ ext {
     junitExtversion = '1.1.2'
 
     kotlin_coroutines_version = "1.4.3"
+    koin_version = "2.1.6"
 
     lifecycle_version = "2.3.1"
     loggingInterceptorVersion = '4.6.0'

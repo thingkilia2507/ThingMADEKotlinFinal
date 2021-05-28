@@ -4,15 +4,7 @@ import androidx.paging.DataSource
 import com.thing.bangkit.thingjetpackkotlin.core.data.localdb.dao.IFilmDao
 import com.thing.bangkit.thingjetpackkotlin.core.data.localdb.entity.FilmEntity
 
-class LocalDataFavRepository private constructor(private val mIFilmDao: IFilmDao) {
-
-    companion object {
-        private var INSTANCE: LocalDataFavRepository? = null
-
-        fun getInstance(filmDao: IFilmDao): LocalDataFavRepository =
-            INSTANCE ?: LocalDataFavRepository(filmDao)
-    }
-
+class LocalDataFavRepository(private val mIFilmDao: IFilmDao) {
 
     fun getAllFavMovie(): DataSource.Factory<Int, FilmEntity> {
 //        return LivePagedListBuilder(mIFilmDao.getAllFavMovies(), 20).build()

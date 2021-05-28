@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TYPE_ID_MOVIE
@@ -13,7 +12,6 @@ import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TY
 import com.thing.bangkit.thingjetpackkotlin.core.helper.EspressoIdlingResource
 import com.thing.bangkit.thingjetpackkotlin.core.ui.adapter.FilmAdapter
 import com.thing.bangkit.thingjetpackkotlin.core.ui.adapter.FilmFavAdapter
-import com.thing.bangkit.thingjetpackkotlin.core.ui.factory.ViewModelFactory
 import com.thing.bangkit.thingjetpackkotlin.databinding.ContentFragmentListBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.FragmentFilmBinding
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmFavViewModel
@@ -21,13 +19,15 @@ import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FilmFragment : Fragment() {
 
     private lateinit var fragmentFilmBinding: FragmentFilmBinding
     private lateinit var binding: ContentFragmentListBinding
-    private lateinit var viewModel: FilmViewModel
-    private lateinit var viewModelFav: FilmFavViewModel
+
+    private val viewModel: FilmViewModel by viewModel()
+    private val viewModelFav: FilmFavViewModel by viewModel()
 
     companion object {
         private const val ARG_POSITION_BUNDLE = "BUNDLE_POSITION"
@@ -49,10 +49,6 @@ class FilmFragment : Fragment() {
     ): View {
         fragmentFilmBinding = FragmentFilmBinding.inflate(inflater, container, false)
         binding = fragmentFilmBinding.contentFragmentList
-        viewModel = ViewModelProvider(requireActivity(),
-            ViewModelFactory.getInstance(requireActivity()))[FilmViewModel::class.java]
-        viewModelFav = ViewModelProvider(requireActivity(),
-            ViewModelFactory.getInstance(requireActivity()))[FilmFavViewModel::class.java]
         return fragmentFilmBinding.root
     }
 

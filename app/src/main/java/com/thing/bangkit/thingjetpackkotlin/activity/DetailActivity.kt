@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.thing.bangkit.thingjetpackkotlin.R
@@ -14,7 +13,6 @@ import com.thing.bangkit.thingjetpackkotlin.core.domain.model.Film
 import com.thing.bangkit.thingjetpackkotlin.core.helper.EspressoIdlingResource
 import com.thing.bangkit.thingjetpackkotlin.core.helper.Utility
 import com.thing.bangkit.thingjetpackkotlin.core.helper.Utility.IMAGE_URL
-import com.thing.bangkit.thingjetpackkotlin.core.ui.factory.ViewModelFactory
 import com.thing.bangkit.thingjetpackkotlin.databinding.ActivityDetailBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.ContentDetailBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.NetworkLostViewBinding
@@ -25,14 +23,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var contentBinding: ContentDetailBinding
-    private lateinit var viewModel: FilmViewModel
-    private lateinit var viewModelFavViewModel: FilmFavViewModel
+    private val viewModel: FilmViewModel by viewModel()
+    private val viewModelFavViewModel: FilmFavViewModel by viewModel()
     private var type: Int = -1
     private var filmId: Int = -1
 
@@ -81,13 +80,6 @@ class DetailActivity : AppCompatActivity() {
         binding.pbLoading.visibility = ProgressBar.VISIBLE
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-
-        viewModel = ViewModelProvider(this,
-            ViewModelFactory.getInstance(this@DetailActivity))[FilmViewModel::class.java]
-        viewModelFavViewModel = ViewModelProvider(this,
-            ViewModelFactory.getInstance(this@DetailActivity))[FilmFavViewModel::class.java]
-
 
 
         EspressoIdlingResource.increment()

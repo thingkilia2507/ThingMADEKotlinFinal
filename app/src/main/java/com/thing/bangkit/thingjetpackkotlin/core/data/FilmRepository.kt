@@ -12,23 +12,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
-class FilmRepository private constructor(
+class FilmRepository(
     private val remoteRepository: RemoteFilmRepository,
     private val localRepository: LocalDataFavRepository,
 ) : IFilmRepository {
-
-    companion object {
-        @Volatile
-        private var instance: FilmRepository? = null
-
-        fun getInstance(
-            remoteData: RemoteFilmRepository,
-            localData: LocalDataFavRepository,
-        ): FilmRepository =
-            instance ?: synchronized(this) {
-                instance ?: FilmRepository(remoteData, localData)
-            }
-    }
 
     //LocalData (Fav)
     override fun getAllFavMovie(): Flow<PagedList<Film>> =
