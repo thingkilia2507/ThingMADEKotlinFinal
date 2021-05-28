@@ -17,4 +17,5 @@
     <dimen name="cardCornerRadius">20dp</dimen>
     <dimen name="height_of_poster">280dp</dimen>
     <dimen name="margin_mini">3dp</dimen>
+    <dimen name="ts_super_big">30sp</dimen>
 </resources>

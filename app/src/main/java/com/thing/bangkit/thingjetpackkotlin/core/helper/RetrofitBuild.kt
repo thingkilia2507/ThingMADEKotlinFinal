@@ -15,7 +15,7 @@ object RetrofitBuild {
             .build()
 
     fun instance(): APIService = Retrofit.Builder()
-        .baseUrl(UtilityURL.BASE_URL)
+        .baseUrl(Utility.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(provideOkHttpClient())
         .build()

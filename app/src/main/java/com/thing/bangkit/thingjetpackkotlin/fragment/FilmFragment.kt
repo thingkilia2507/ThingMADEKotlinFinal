@@ -49,8 +49,10 @@ class FilmFragment : Fragment() {
     ): View {
         fragmentFilmBinding = FragmentFilmBinding.inflate(inflater, container, false)
         binding = fragmentFilmBinding.contentFragmentList
-        viewModel = ViewModelProvider(requireActivity(), ViewModelFactory.getInstance(requireActivity()))[FilmViewModel::class.java]
-        viewModelFav = ViewModelProvider(requireActivity(), ViewModelFactory.getInstance(requireActivity()))[FilmFavViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity(),
+            ViewModelFactory.getInstance(requireActivity()))[FilmViewModel::class.java]
+        viewModelFav = ViewModelProvider(requireActivity(),
+            ViewModelFactory.getInstance(requireActivity()))[FilmFavViewModel::class.java]
         return fragmentFilmBinding.root
     }
 
@@ -62,10 +64,12 @@ class FilmFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if(arguments?.getInt(ARG_PAGE_TYPE) == 1)
+        if (arguments?.getInt(ARG_PAGE_TYPE) == 1) {
+            loadData()
             binding.rvListFilm.adapter?.itemCount?.let {
                 ivEmptyShow(it < 1)
             }
+        }
     }
 
     private fun loadData() {
@@ -90,14 +94,16 @@ class FilmFragment : Fragment() {
             } else {
                 val adapter = FilmAdapter()
                 adapter.type = TYPE_ID_MOVIE
-                viewModel.moviesData().observe(viewLifecycleOwner, {
-                    adapter.listFilm = it
-                    setEmptyView(it.size < 1, adapter)
+                lifecycleScope.launch {
+                    viewModel.moviesData().observe(viewLifecycleOwner, {
+                        adapter.listFilm = it
+                        setEmptyView(it.size < 1, adapter)
 
-                    if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow) {
-                        EspressoIdlingResource.decrement()
-                    }
-                })
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement()
+                        }
+                    })
+                }
             }
         } else {
             if (arguments?.getInt(ARG_PAGE_TYPE) == 1) {
@@ -119,14 +125,16 @@ class FilmFragment : Fragment() {
             } else {
                 val adapter = FilmAdapter()
                 adapter.type = TYPE_ID_TV_SHOW
-                viewModel.tvShowsData().observe(viewLifecycleOwner, {
-                    adapter.listFilm = it
-                    setEmptyView(it.size < 1, adapter)
+                lifecycleScope.launch {
+                    viewModel.tvShowsData().observe(viewLifecycleOwner, {
+                        adapter.listFilm = it
+                        setEmptyView(it.size < 1, adapter)
 
-                    if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow) {
-                        EspressoIdlingResource.decrement()
-                    }
-                })
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement()
+                        }
+                    })
+                }
             }
         }
     }
@@ -167,7 +175,14 @@ class FilmFragment : Fragment() {
     }
 
     private fun ivEmptyShow(show: Boolean) {
-        if (show) binding.ivCompactEmpty.visibility =
-            View.VISIBLE else binding.ivCompactEmpty.visibility = View.GONE
+        if (show) {
+            binding.ivCompactEmpty.visibility =
+                View.VISIBLE
+
+            binding.rvListFilm.visibility = View.GONE
+        } else {
+            binding.ivCompactEmpty.visibility = View.GONE
+
+        }
     }
 }

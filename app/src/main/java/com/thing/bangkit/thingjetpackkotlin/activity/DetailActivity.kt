@@ -1,5 +1,7 @@
 package com.thing.bangkit.thingjetpackkotlin.activity
 
+import android.content.Intent
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -10,10 +12,12 @@ import com.bumptech.glide.Glide
 import com.thing.bangkit.thingjetpackkotlin.R
 import com.thing.bangkit.thingjetpackkotlin.core.domain.model.Film
 import com.thing.bangkit.thingjetpackkotlin.core.helper.EspressoIdlingResource
-import com.thing.bangkit.thingjetpackkotlin.core.helper.UtilityURL.IMAGE_URL
+import com.thing.bangkit.thingjetpackkotlin.core.helper.Utility
+import com.thing.bangkit.thingjetpackkotlin.core.helper.Utility.IMAGE_URL
 import com.thing.bangkit.thingjetpackkotlin.core.ui.factory.ViewModelFactory
 import com.thing.bangkit.thingjetpackkotlin.databinding.ActivityDetailBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.ContentDetailBinding
+import com.thing.bangkit.thingjetpackkotlin.databinding.NetworkLostViewBinding
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmFavViewModel
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmViewModel
 import es.dmoral.toasty.Toasty
@@ -30,7 +34,11 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var viewModel: FilmViewModel
     private lateinit var viewModelFavViewModel: FilmFavViewModel
     private var type: Int = -1
+    private var filmId: Int = -1
 
+
+    private lateinit var networkLostBinding: NetworkLostViewBinding
+    private var checkNetworkCapabilities: NetworkCapabilities? = null
 
     companion object {
         const val EXTRA_FILM_ID = "extra_film_id"
@@ -45,12 +53,35 @@ class DetailActivity : AppCompatActivity() {
         contentBinding = binding.contentDetail
         setContentView(binding.root)
 
+        filmId = intent.getIntExtra(EXTRA_FILM_ID, -1)
+        type = intent.getIntExtra(EXTRA_FILM_TYPE, -1)
+        checkNetworkCapabilities = Utility.checkNetworkConnection(this)
+        if (checkNetworkCapabilities == null) {
+            networkLostBinding = NetworkLostViewBinding.inflate(layoutInflater)
+            setContentView(networkLostBinding.root)
+            networkLostBinding.btnReload.setOnClickListener {
+                checkNetworkCapabilities = Utility.checkNetworkConnection(this)
+                if (checkNetworkCapabilities != null) {
+                    val i = Intent(this, DetailActivity::class.java)
+                    i.putExtra(EXTRA_FILM_ID, filmId)
+                    i.putExtra(EXTRA_FILM_TYPE, type)
+                    startActivity(i)
+                    finish()
+                }
+            }
+        } else {
+            runDetAct()
+        }
+
+
+
+    }
+
+    private fun runDetAct() {
         binding.pbLoading.visibility = ProgressBar.VISIBLE
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val filmId = intent.getIntExtra(EXTRA_FILM_ID, -1)
-        type = intent.getIntExtra(EXTRA_FILM_TYPE, -1)
 
         viewModel = ViewModelProvider(this,
             ViewModelFactory.getInstance(this@DetailActivity))[FilmViewModel::class.java]
@@ -60,11 +91,11 @@ class DetailActivity : AppCompatActivity() {
 
 
         EspressoIdlingResource.increment()
-        viewModel.getFilmsFromId(filmId, type).observe(this@DetailActivity, {
-            bind(it)
-        })
-
-
+        lifecycleScope.launch {
+            viewModel.getFilmsFromId(filmId, type).observe(this@DetailActivity, {
+                bind(it)
+            })
+        }
     }
 
     private fun checkingFavorite(film: Film) {

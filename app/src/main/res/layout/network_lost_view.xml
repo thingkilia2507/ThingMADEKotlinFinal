@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_network"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lottie_network"
+            app:lottie_repeatMode="reverse" />
+
+        <TextView
+            android:id="@+id/tv_no_network"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_def"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="@string/no_internet_access"
+            android:textAllCaps="true"
+            android:textColor="@color/red"
+            android:textSize="@dimen/ts_super_big"
+            app:layout_constraintBottom_toBottomOf="@id/lottie_network"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_reload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_def"
+            android:padding="@dimen/padding_def"
+            android:text="@string/reload"
+            app:layout_constraintEnd_toEndOf="@id/lottie_network"
+            app:layout_constraintStart_toStartOf="@id/lottie_network"
+            app:layout_constraintTop_toBottomOf="@id/tv_no_network" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

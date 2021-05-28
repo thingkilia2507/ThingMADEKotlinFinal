@@ -1,14 +1,14 @@
 package com.thing.bangkit.thingjetpackkotlin.core.domain.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.thing.bangkit.thingjetpackkotlin.core.domain.model.Film
+import kotlinx.coroutines.flow.Flow
 
 interface IFilmRepository {
     //LocalData (Fav)
-    fun getAllFavMovie(): LiveData<PagedList<Film>>
+    fun getAllFavMovie(): Flow<PagedList<Film>>
 
-    fun getAllFavTvShow(): LiveData<PagedList<Film>>
+    fun getAllFavTvShow(): Flow<PagedList<Film>>
 
     fun getFavFilmById(id: Int): Film?
 
@@ -17,9 +17,9 @@ interface IFilmRepository {
 
 
     //RemoteData
-    fun getMoviesList(): LiveData<ArrayList<Film>>
+    suspend fun getMoviesList(): Flow<ArrayList<Film>>
 
-    fun getTvShowsList(): LiveData<ArrayList<Film>>
+    suspend fun getTvShowsList(): Flow<ArrayList<Film>>
 
-    fun getDetailFromId(id: Int, type: Int): LiveData<Film>
+    suspend fun getDetailFromId(id: Int, type: Int): Flow<Film>
 }

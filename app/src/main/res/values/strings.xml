@@ -11,6 +11,8 @@
     <string name="tvshows">Tv Shows</string>
     <string name="favorite">Favorite</string>
 
+    <string name="no_internet_access">No Internet Access</string>
+    <string name="reload">Reload</string>
     <integer-array name="movie_poster">
         <item>@drawable/poster_a_little_called_love</item>
         <item>@drawable/poster_a_start_is_born</item>

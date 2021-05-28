@@ -1,25 +1,20 @@
 package com.thing.bangkit.thingjetpackkotlin.core.domain.usecase
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.thing.bangkit.thingjetpackkotlin.core.domain.model.Film
+import kotlinx.coroutines.flow.Flow
 
 interface FilmUseCase {
     //LocalData (Fav)
-    fun getAllFavMovie(): LiveData<PagedList<Film>>
-
-    fun getAllFavTvShow(): LiveData<PagedList<Film>>
-
+    fun getAllFavMovie(): Flow<PagedList<Film>>
+    fun getAllFavTvShow(): Flow<PagedList<Film>>
     fun getFavFilmById(id: Int): Film?
-
     fun insertFavFilm(film: Film)
     fun deleteById(id: Int): Int
 
 
     //RemoteData
-    fun getMoviesList(): LiveData<ArrayList<Film>>
-
-    fun getTvShowsList(): LiveData<ArrayList<Film>>
-
-    fun getDetailFromId(id: Int, type: Int): LiveData<Film>
+    suspend fun getMoviesList(): Flow<ArrayList<Film>>
+    suspend fun getTvShowsList(): Flow<ArrayList<Film>>
+    suspend fun getDetailFromId(id: Int, type: Int): Flow<Film>
 }
