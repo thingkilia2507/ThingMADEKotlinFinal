@@ -19,7 +19,7 @@ import com.thing.bangkit.thingjetpackkotlin.core.adapter.FilmFavAdapter
 import com.thing.bangkit.thingjetpackkotlin.core.databinding.ContentFragmentListBinding
 import com.thing.bangkit.thingjetpackkotlin.favorites.databinding.FragmentFilmFavBinding
 import com.thing.bangkit.thingjetpackkotlin.favorites.viemodel.FilmFavViewModel
-import com.thing.bangkit.thingjetpackkotlin.helper.EspressoIdlingResource
+import com.thing.bangkit.thingjetpackkotlin.favorites.helper.EspressoIdlingResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

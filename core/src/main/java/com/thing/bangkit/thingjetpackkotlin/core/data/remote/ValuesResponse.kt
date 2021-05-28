@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ValuesResponse(
 	@field:SerializedName("results")
-	val results: ArrayList<com.thing.bangkit.thingjetpackkotlin.core.data.remote.FilmResponse>
+	val results: ArrayList<FilmResponse>
 ) : Parcelable

@@ -11,8 +11,5 @@ class FilmFavViewModel(private val useCase: FilmUseCase) : ViewModel() {
 
     fun favMoviesData(): LiveData<PagedList<Film>> = useCase.getAllFavMovie().asLiveData()
     fun favTvShowsData(): LiveData<PagedList<Film>> = useCase.getAllFavTvShow().asLiveData()
-    fun getFavFilmFromId(id: Int): Film? = useCase.getFavFilmById(id)
-    fun insertFavFilmData(film: Film)= useCase.insertFavFilm(film)
-    fun deleteFavFilmFromId(id: Int)= useCase.deleteById(id)
 
 }

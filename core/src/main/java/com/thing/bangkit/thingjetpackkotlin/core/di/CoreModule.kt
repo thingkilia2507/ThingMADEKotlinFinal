@@ -14,10 +14,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 val databaseModule = module {
-    factory { get<com.thing.bangkit.thingjetpackkotlin.core.data.localdb.database.FilmRoomDatabase>().filmDao() }
+    factory { get<FilmRoomDatabase>().filmDao() }
     single {
-        Room.databaseBuilder(androidContext(), com.thing.bangkit.thingjetpackkotlin.core.data.localdb.database.FilmRoomDatabase::class.java,
-            com.thing.bangkit.thingjetpackkotlin.core.data.localdb.database.FilmRoomDatabase.DATABASE_NAME).fallbackToDestructiveMigration().build()
+        Room.databaseBuilder(androidContext(), FilmRoomDatabase::class.java,
+            FilmRoomDatabase.DATABASE_NAME).fallbackToDestructiveMigration().build()
     }
 }
 

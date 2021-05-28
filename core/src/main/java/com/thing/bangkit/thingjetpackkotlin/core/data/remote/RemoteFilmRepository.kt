@@ -9,16 +9,16 @@ import kotlinx.coroutines.flow.flowOn
 
 class RemoteFilmRepository(private val apiService: APIService) {
 
-    suspend fun getMoviesList(): Flow<ArrayList<com.thing.bangkit.thingjetpackkotlin.core.data.remote.FilmResponse>> {
+    suspend fun getMoviesList(): Flow<ArrayList<FilmResponse>> {
         return flowList(apiService.getMovieList())
 
     }
 
-    suspend fun getTvShowsList(): Flow<ArrayList<com.thing.bangkit.thingjetpackkotlin.core.data.remote.FilmResponse>> {
+    suspend fun getTvShowsList(): Flow<ArrayList<FilmResponse>> {
         return flowList(apiService.getTvShowList())
     }
 
-    private suspend fun flowList(response: com.thing.bangkit.thingjetpackkotlin.core.data.remote.ValuesResponse) = flow {
+    private suspend fun flowList(response: ValuesResponse) = flow {
         try {
             val dataArray = response.results
             if (dataArray.isNotEmpty()) {
@@ -29,7 +29,7 @@ class RemoteFilmRepository(private val apiService: APIService) {
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getDetailFromId(id: Int, type: Int): Flow<com.thing.bangkit.thingjetpackkotlin.core.data.remote.FilmResponse> {
+    suspend fun getDetailFromId(id: Int, type: Int): Flow<FilmResponse> {
         val response = if (type == 1) {
             apiService.getMovie(id.toString())
         } else {
@@ -38,7 +38,7 @@ class RemoteFilmRepository(private val apiService: APIService) {
         return flowList(response)
     }
 
-    private suspend fun flowList(response: com.thing.bangkit.thingjetpackkotlin.core.data.remote.FilmResponse) = flow {
+    private suspend fun flowList(response: FilmResponse) = flow {
         try {
             emit(response)
         } catch (e: Exception) {
