@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_def">10dp</dimen>
+    <dimen name="heading1">35sp</dimen>
+    <dimen name="heading2">30sp</dimen>
+    <dimen name="heading3">25sp</dimen>
+    <dimen name="heading4">20sp</dimen>
+    <dimen name="heading5">18sp</dimen>
+    <dimen name="heading6">16sp</dimen>
+    <dimen name="text_size_standard">14sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="app_bar_height">56dp</dimen>
+    <dimen name="size_circle_Rate">60dp</dimen>
+    <dimen name="size_circle_Rate_item">50dp</dimen>
+    <dimen name="margin_def">20dp</dimen>
+    <dimen name="margin_small">10dp</dimen>
+    <dimen name="cardCornerRadius">20dp</dimen>
+    <dimen name="height_of_poster">280dp</dimen>
+    <dimen name="margin_mini">3dp</dimen>
+    <dimen name="ts_super_big">30sp</dimen>
+</resources>

@@ -2,15 +2,15 @@ package com.thing.bangkit.thingjetpackkotlin.activity
 
 import android.content.Intent
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayoutMediator
 import com.thing.bangkit.thingjetpackkotlin.R
+import com.thing.bangkit.thingjetpackkotlin.core.adapter.SectionPagerAdapter
 import com.thing.bangkit.thingjetpackkotlin.core.helper.Utility.checkNetworkConnection
-import com.thing.bangkit.thingjetpackkotlin.core.ui.adapter.SectionPagerAdapter
 import com.thing.bangkit.thingjetpackkotlin.databinding.ActivityMainBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.NetworkLostViewBinding
 
@@ -20,10 +20,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var networkLostBinding: NetworkLostViewBinding
     private var checkNetworkCapabilities: NetworkCapabilities? = null
 
-    companion object {
-        const val EXTRA_ACTIVITY_KEY = "EXTRA_ACTIVITY_KEY"
-        const val FAV_ACTIVITY_TYPE = 1
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun runMainAct() {
         supportActionBar?.elevation = 0f
-        val sectionPagerAdapter =
-            SectionPagerAdapter(this, intent?.getIntExtra(EXTRA_ACTIVITY_KEY, 0) ?: 0)
+        val sectionPagerAdapter = SectionPagerAdapter(this,  0)
         binding.viewPager.adapter = sectionPagerAdapter
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             when (position) {
@@ -63,10 +58,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
-        if (intent?.getIntExtra(EXTRA_ACTIVITY_KEY, 0) == FAV_ACTIVITY_TYPE) {
-            supportActionBar?.title = "My Favorite"
-            menu?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_home)
-        }
 
         return true
     }
@@ -74,13 +65,9 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_fav -> {
-                if (intent?.getIntExtra(EXTRA_ACTIVITY_KEY, 0) != FAV_ACTIVITY_TYPE) {
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra(EXTRA_ACTIVITY_KEY, FAV_ACTIVITY_TYPE)
-                    startActivity(intent)
-                } else {
-                    onBackPressed()
-                }
+                val uri = Uri.parse("favoriteapp://favorites")
+                startActivity(Intent(Intent.ACTION_VIEW, uri))
+
             }
         }
         return super.onOptionsItemSelected(item)

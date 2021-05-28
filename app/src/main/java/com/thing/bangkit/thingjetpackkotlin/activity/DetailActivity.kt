@@ -10,13 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.thing.bangkit.thingjetpackkotlin.R
 import com.thing.bangkit.thingjetpackkotlin.core.domain.model.Film
-import com.thing.bangkit.thingjetpackkotlin.core.helper.EspressoIdlingResource
 import com.thing.bangkit.thingjetpackkotlin.core.helper.Utility
 import com.thing.bangkit.thingjetpackkotlin.core.helper.Utility.IMAGE_URL
 import com.thing.bangkit.thingjetpackkotlin.databinding.ActivityDetailBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.ContentDetailBinding
 import com.thing.bangkit.thingjetpackkotlin.databinding.NetworkLostViewBinding
-import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmFavViewModel
+import com.thing.bangkit.thingjetpackkotlin.helper.EspressoIdlingResource
+import com.thing.bangkit.thingjetpackkotlin.viemodel.DetailViewModel
 import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmViewModel
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +31,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var contentBinding: ContentDetailBinding
     private val viewModel: FilmViewModel by viewModel()
-    private val viewModelFavViewModel: FilmFavViewModel by viewModel()
+    private val viewModelFavViewModel: DetailViewModel by viewModel()
     private var type: Int = -1
     private var filmId: Int = -1
 

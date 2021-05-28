@@ -1,4 +1,4 @@
-package com.thing.bangkit.thingjetpackkotlin.fragment
+package com.thing.bangkit.thingjetpackkotlin.favorites.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,26 +10,27 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.thing.bangkit.thingjetpackkotlin.R
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.EXTRA_FILM_ID
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.EXTRA_FILM_TYPE
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TYPE_ID_MOVIE
 import com.thing.bangkit.thingjetpackkotlin.activity.DetailActivity.Companion.TYPE_ID_TV_SHOW
-import com.thing.bangkit.thingjetpackkotlin.core.adapter.FilmAdapter
+import com.thing.bangkit.thingjetpackkotlin.core.adapter.FilmFavAdapter
 import com.thing.bangkit.thingjetpackkotlin.core.databinding.ContentFragmentListBinding
-import com.thing.bangkit.thingjetpackkotlin.databinding.FragmentFilmBinding
+import com.thing.bangkit.thingjetpackkotlin.favorites.databinding.FragmentFilmFavBinding
+import com.thing.bangkit.thingjetpackkotlin.favorites.viemodel.FilmFavViewModel
 import com.thing.bangkit.thingjetpackkotlin.helper.EspressoIdlingResource
-import com.thing.bangkit.thingjetpackkotlin.viemodel.FilmViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class FilmFragment : Fragment() {
+class FilmFavFragment : Fragment() {
 
-    private lateinit var fragmentFilmBinding: FragmentFilmBinding
+    private lateinit var fragmentFilmFavBinding: FragmentFilmFavBinding
     private lateinit var binding: ContentFragmentListBinding
 
-    private val viewModel: FilmViewModel by viewModel()
+    private val viewModelFav: FilmFavViewModel by viewModel()
 
     companion object {
         private const val ARG_POSITION_BUNDLE = "BUNDLE_POSITION"
@@ -39,9 +40,9 @@ class FilmFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        fragmentFilmBinding = FragmentFilmBinding.inflate(inflater, container, false)
-        binding = fragmentFilmBinding.contentFragmentList
-        return fragmentFilmBinding.root
+        fragmentFilmFavBinding = FragmentFilmFavBinding.inflate(inflater, container, false)
+        binding = fragmentFilmFavBinding.contentFragmentFavList
+        return fragmentFilmFavBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,13 +51,19 @@ class FilmFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadData()
+        binding.rvListFilm.adapter?.itemCount?.let {
+            ivEmptyShow(it < 1)
+        }
+    }
 
     private fun loadData() {
         progressBarShow(true)
         EspressoIdlingResource.increment()
         if (arguments?.getInt(ARG_POSITION_BUNDLE) == 0) {
-
-            val adapter = FilmAdapter(object : FilmAdapter.IGotoDetail {
+            val adapter = FilmFavAdapter(object : FilmFavAdapter.IGotoDetailFav {
                 override fun onIntent(id: Int, type: Int, iv: AppCompatImageView) {
                     val i = Intent(binding.root.context, DetailActivity::class.java)
                     i.putExtra(EXTRA_FILM_ID, id)
@@ -64,26 +71,27 @@ class FilmFragment : Fragment() {
                     val option =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
                             iv,
-                            requireContext().getString(R.string.transition_poster))
+                            requireContext().getString(com.thing.bangkit.thingjetpackkotlin.core.R.string.transition_poster))
                     requireContext().startActivity(i, option.toBundle())
                 }
 
             })
             adapter.type = TYPE_ID_MOVIE
-            lifecycleScope.launch {
-                viewModel.moviesData().observe(viewLifecycleOwner, {
-                    adapter.listFilm = it
-                    setEmptyView(it.size < 1, adapter)
-
+            lifecycleScope.launch(Dispatchers.IO) {
+                val data = viewModelFav.favMoviesData()
+                withContext(Dispatchers.Main) {
+                    data.observe(requireActivity(), {
+                        adapter.submitList(it)
+                        setEmptyView(adapter.itemCount < 1, adapter)
+                    })
                     if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow) {
                         EspressoIdlingResource.decrement()
                     }
-                })
+                }
             }
 
         } else {
-
-            val adapter = FilmAdapter(object : FilmAdapter.IGotoDetail {
+            val adapter = FilmFavAdapter(object : FilmFavAdapter.IGotoDetailFav {
                 override fun onIntent(id: Int, type: Int, iv: AppCompatImageView) {
                     val i = Intent(binding.root.context, DetailActivity::class.java)
                     i.putExtra(EXTRA_FILM_ID, id)
@@ -91,27 +99,31 @@ class FilmFragment : Fragment() {
                     val option =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
                             iv,
-                            requireContext().getString(R.string.transition_poster))
+                            requireContext().getString(com.thing.bangkit.thingjetpackkotlin.core.R.string.transition_poster))
                     requireContext().startActivity(i, option.toBundle())
                 }
 
             })
             adapter.type = TYPE_ID_TV_SHOW
-            lifecycleScope.launch {
-                viewModel.tvShowsData().observe(viewLifecycleOwner, {
-                    adapter.listFilm = it
-                    setEmptyView(it.size < 1, adapter)
+            lifecycleScope.launch(Dispatchers.IO) {
+                val data = viewModelFav.favTvShowsData()
+                withContext(Dispatchers.Main) {
+                    data.observe(requireActivity(), {
+                        adapter.submitList(it)
+                        setEmptyView(adapter.itemCount < 1, adapter)
+                    })
 
                     if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow) {
                         EspressoIdlingResource.decrement()
                     }
-                })
+                }
             }
 
         }
     }
 
-    private fun setEmptyView(isEmpty: Boolean, adapter: FilmAdapter) {
+
+    private fun setEmptyView(isEmpty: Boolean, adapter: FilmFavAdapter) {
         if (isEmpty)
             ivEmptyShow(true)
         else {
@@ -125,7 +137,6 @@ class FilmFragment : Fragment() {
         }
         progressBarShow(false)
     }
-
 
     private fun progressBarShow(show: Boolean) {
         if (show) binding.pbLoading.visibility =

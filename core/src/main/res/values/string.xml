@@ -10,9 +10,7 @@
     <string name="movies">Movies</string>
     <string name="tvshows">Tv Shows</string>
     <string name="favorite">Favorite</string>
-    <string name="home">Home</string>
 
     <string name="no_internet_access">No Internet Access</string>
     <string name="reload">Reload</string>
-    <string name="title_favorites">Favorites</string>
 </resources>
