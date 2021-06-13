@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="com.thing.bangkit.thingjetpackkotlin.favorites">
+    package="com.thing.bangkit.thingmadekotlinfinal.favorites">
 
     <dist:module
         dist:instant="false"
@@ -14,7 +14,7 @@
     </dist:module>
 
     <application>
-        <activity android:name=".activity.FavoriteActivity">
+        <activity android:name="com.thing.bangkit.thingmadekotlinfinal.favorites.activity.FavoriteActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>

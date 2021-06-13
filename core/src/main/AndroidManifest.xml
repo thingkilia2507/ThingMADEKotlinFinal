@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.thing.bangkit.thingjetpackkotlin.core">
+    package="com.thing.bangkit.thingmadekotlinfinal.core">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>

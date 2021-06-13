@@ -12,7 +12,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.thing.bangkit.thingjetpackkotlin.favorites"
+        applicationId "com.thing.bangkit.thingmadekotlinfinal.favorites"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
