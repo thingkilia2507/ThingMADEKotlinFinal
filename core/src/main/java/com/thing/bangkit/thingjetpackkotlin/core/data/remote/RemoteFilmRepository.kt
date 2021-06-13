@@ -10,8 +10,7 @@ import kotlinx.coroutines.flow.flowOn
 
 class RemoteFilmRepository(private val apiService: APIService) {
 
-    private val apiKey =
-        BuildConfig.API_KEY
+    private val apiKey = BuildConfig.API_KEY
 
     suspend fun getMoviesList(): Flow<ArrayList<FilmResponse>> {
         return flowList(apiService.getMovieList(apiKey, "en-US"))
