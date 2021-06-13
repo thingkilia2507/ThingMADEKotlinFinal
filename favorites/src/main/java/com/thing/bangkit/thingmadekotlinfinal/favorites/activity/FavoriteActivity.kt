@@ -10,11 +10,11 @@ import com.thing.bangkit.thingmadekotlinfinal.favorites.R
 import com.thing.bangkit.thingmadekotlinfinal.favorites.databinding.ActivityFavoriteBinding
 import com.thing.bangkit.thingmadekotlinfinal.favorites.di.favoritesModule
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 
 class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFavoriteBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +25,6 @@ class FavoriteActivity : AppCompatActivity() {
 
         supportActionBar?.title = "My Favorite"
         runActivity()
-
-
     }
 
     private fun runActivity() {
@@ -57,5 +55,9 @@ class FavoriteActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unloadKoinModules(favoritesModule)
+    }
 
 }

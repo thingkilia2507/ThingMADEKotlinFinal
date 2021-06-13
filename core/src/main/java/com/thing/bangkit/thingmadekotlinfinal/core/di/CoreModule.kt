@@ -5,6 +5,8 @@ import com.thing.bangkit.thingmadekotlinfinal.core.data.localdb.database.FilmRoo
 import com.thing.bangkit.thingmadekotlinfinal.core.domain.repository.IFilmRepository
 import com.thing.bangkit.thingmadekotlinfinal.core.helper.APIService
 import com.thing.bangkit.thingmadekotlinfinal.core.helper.Utility
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -16,8 +18,11 @@ import java.util.concurrent.TimeUnit
 val databaseModule = module {
     factory { get<FilmRoomDatabase>().filmDao() }
     single {
+        val passphrase: ByteArray = SQLiteDatabase.getBytes("thing".toCharArray())
+        val factory = SupportFactory(passphrase)
         Room.databaseBuilder(androidContext(), FilmRoomDatabase::class.java,
-            FilmRoomDatabase.DATABASE_NAME).fallbackToDestructiveMigration().build()
+            FilmRoomDatabase.DATABASE_NAME).fallbackToDestructiveMigration()
+            .openHelperFactory(factory).build()
     }
 }
 

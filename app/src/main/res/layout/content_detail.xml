@@ -11,113 +11,119 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/margin_def">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/rates"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:paddingTop="@dimen/padding_def">
+        <RelativeLayout
+            android:id="@+id/rv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <ProgressBar
-                android:id="@+id/progressbar_circle_rate"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="@dimen/size_circle_Rate"
-                android:layout_height="@dimen/size_circle_Rate"
-                android:backgroundTint="@color/black"
-                android:progress="50"
-                android:progressDrawable="@drawable/circle"
-                android:rotation="-90"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed" />
-
-            <TextView
-                android:id="@+id/tv_rating"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rates"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:layout_alignParentEnd="true"
+                android:paddingTop="@dimen/padding_def">
+
+                <ProgressBar
+                    android:id="@+id/progressbar_circle_rate"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="@dimen/size_circle_Rate"
+                    android:layout_height="@dimen/size_circle_Rate"
+                    android:backgroundTint="@color/black"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/circle"
+                    android:rotation="-90"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed" />
+
+                <TextView
+                    android:id="@+id/tv_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_standard"
+                    app:layout_constraintBottom_toBottomOf="@+id/progressbar_circle_rate"
+                    app:layout_constraintLeft_toLeftOf="@id/progressbar_circle_rate"
+                    app:layout_constraintRight_toRightOf="@id/progressbar_circle_rate"
+                    app:layout_constraintTop_toTopOf="@id/progressbar_circle_rate"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    tools:text="100%" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_fav"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rates"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/margin_mini"
+                android:layout_toEndOf="@+id/tv_popularity"
+                android:src="@drawable/ic_favorite_no" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/rates"
+                android:paddingStart="@dimen/padding_def"
+                android:paddingEnd="@dimen/padding_def"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/heading3"
+                tools:text="A little Thing Called Love" />
+
+            <TextView
+                android:id="@+id/tv_release_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"
+                android:layout_toStartOf="@id/rates"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:paddingStart="@dimen/padding_def"
+                android:paddingEnd="@dimen/padding_def"
+                android:textColor="#917E7E"
+                android:textSize="@dimen/heading6"
+                tools:text="March 21, 2021" />
+
+            <TextView
+                android:id="@+id/tv_vote_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_release_date"
+                android:layout_toStartOf="@id/rates"
+                android:drawablePadding="@dimen/margin_mini"
+                android:gravity="fill_vertical"
+                android:paddingStart="@dimen/padding_def"
+                android:paddingEnd="@dimen/padding_def"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_standard"
-                app:layout_constraintBottom_toBottomOf="@+id/progressbar_circle_rate"
-                app:layout_constraintLeft_toLeftOf="@id/progressbar_circle_rate"
-                app:layout_constraintRight_toRightOf="@id/progressbar_circle_rate"
-                app:layout_constraintTop_toTopOf="@id/progressbar_circle_rate"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                tools:text="100%" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_fav"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/rates"
-            android:layout_margin="@dimen/margin_mini"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/tv_popularity"
-            android:src="@drawable/ic_favorite_no" />
+                app:drawableStartCompat="@drawable/ic_vote"
+                tools:text="Vote Count : 345" />
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/rates"
-            android:paddingStart="@dimen/padding_def"
-            android:paddingEnd="@dimen/padding_def"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/heading3"
-            tools:text="A little Thing Called Love" />
-
-        <TextView
-            android:id="@+id/tv_release_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_title"
-            android:layout_toStartOf="@id/rates"
-            android:fontFamily="serif"
-            android:gravity="center"
-            android:paddingStart="@dimen/padding_def"
-            android:paddingEnd="@dimen/padding_def"
-            android:textColor="#917E7E"
-            android:textSize="@dimen/heading6"
-            tools:text="March 21, 2021" />
-
-        <TextView
-            android:id="@+id/tv_vote_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_release_date"
-            android:layout_toStartOf="@id/rates"
-            android:drawablePadding="@dimen/margin_mini"
-            android:gravity="fill_vertical"
-            android:paddingStart="@dimen/padding_def"
-            android:paddingEnd="@dimen/padding_def"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_standard"
-            app:drawableStartCompat="@drawable/ic_vote"
-            tools:text="Vote Count : 345" />
-
-
-        <TextView
-            android:id="@+id/tv_popularity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_vote_count"
-            android:layout_toStartOf="@id/rates"
-            android:drawablePadding="@dimen/margin_mini"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/padding_def"
-            android:paddingEnd="@dimen/padding_def"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_standard"
-            app:drawableStartCompat="@drawable/ic_popularity_eye"
-            tools:text="Popularity : 19000" />
-
+            <TextView
+                android:id="@+id/tv_popularity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_vote_count"
+                android:layout_toStartOf="@id/rates"
+                android:drawablePadding="@dimen/margin_mini"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/padding_def"
+                android:paddingEnd="@dimen/padding_def"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_standard"
+                app:drawableStartCompat="@drawable/ic_popularity_eye"
+                tools:text="Popularity : 19000" />
+        </RelativeLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/iv_fav"
+            android:layout_below="@+id/rv1"
             android:layout_margin="@dimen/margin_small"
             app:cardCornerRadius="10dp">
 

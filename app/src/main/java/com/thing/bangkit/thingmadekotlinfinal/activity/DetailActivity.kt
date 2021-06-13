@@ -18,7 +18,6 @@ import com.thing.bangkit.thingmadekotlinfinal.databinding.NetworkLostViewBinding
 import com.thing.bangkit.thingmadekotlinfinal.helper.EspressoIdlingResource
 import com.thing.bangkit.thingmadekotlinfinal.viemodel.DetailViewModel
 import com.thing.bangkit.thingmadekotlinfinal.viemodel.FilmViewModel
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
@@ -73,7 +72,6 @@ class DetailActivity : AppCompatActivity() {
         }
 
 
-
     }
 
     private fun runDetAct() {
@@ -84,10 +82,11 @@ class DetailActivity : AppCompatActivity() {
 
         EspressoIdlingResource.increment()
         lifecycleScope.launch {
-            viewModel.getFilmsFromId(filmId, type).observe(this@DetailActivity, {
-                bind(it)
+            viewModel.getFilmsFromId(filmId, type).observe(this@DetailActivity, { film ->
+                bind(film)
             })
         }
+
     }
 
     private fun checkingFavorite(film: Film) {
@@ -97,8 +96,7 @@ class DetailActivity : AppCompatActivity() {
                 film.favorite = isFavorite
                 if (isFavorite) {
                     contentBinding.ivFav.setImageResource(R.drawable.ic_favorite_yes)
-                }
-                else contentBinding.ivFav.setImageResource(R.drawable.ic_favorite_no)
+                } else contentBinding.ivFav.setImageResource(R.drawable.ic_favorite_no)
 
                 favoriteListener(film)
 
@@ -108,6 +106,7 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
 
@@ -119,14 +118,12 @@ class DetailActivity : AppCompatActivity() {
                 lifecycleScope.launch(Dispatchers.IO) {
                     viewModelFavViewModel.deleteFavFilmFromId(film.id)
                 }
-                Toasty.error(this@DetailActivity, "UnFavorite : ${film.title}", Toasty.LENGTH_SHORT).show()
             } else {
                 contentBinding.ivFav.setImageResource(R.drawable.ic_favorite_yes)
                 film.favorite = true
                 lifecycleScope.launch(Dispatchers.IO) {
                     viewModelFavViewModel.insertFavFilmData(film)
                 }
-                Toasty.success(this@DetailActivity, "Favorite : ${film.title}", Toasty.LENGTH_SHORT).show()
             }
         }
     }
@@ -157,10 +154,26 @@ class DetailActivity : AppCompatActivity() {
         film.myType = type
         checkingFavorite(film)
 
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
+    }
+
+    override fun onDestroy() {
+        if (isTaskRoot) {
+            finishAfterTransition()
+        }
+        super.onDestroy()
+
+    }
+
+    override fun onBackPressed() {
+        if (isTaskRoot) {
+            finishAfterTransition()
+        }
+        super.onBackPressed()
     }
 }

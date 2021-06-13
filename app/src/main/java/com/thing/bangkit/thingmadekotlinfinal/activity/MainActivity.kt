@@ -72,4 +72,19 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+
+    override fun onDestroy() {
+        if(isTaskRoot){
+            finishAfterTransition()
+        }
+        super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        if(isTaskRoot){
+            finishAfterTransition()
+        }
+        super.onBackPressed()
+    }
 }

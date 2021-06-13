@@ -1,6 +1,5 @@
 package com.thing.bangkit.thingmadekotlinfinal.core.data.remote
 
-import android.os.Build
 import android.util.Log
 import com.thing.bangkit.thingmadekotlinfinal.core.BuildConfig
 import com.thing.bangkit.thingmadekotlinfinal.core.helper.APIService
