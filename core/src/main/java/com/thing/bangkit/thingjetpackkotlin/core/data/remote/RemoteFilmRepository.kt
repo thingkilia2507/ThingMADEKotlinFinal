@@ -10,15 +10,13 @@ import kotlinx.coroutines.flow.flowOn
 
 class RemoteFilmRepository(private val apiService: APIService) {
 
-    private val apiKey = BuildConfig.API_KEY
-
     suspend fun getMoviesList(): Flow<ArrayList<FilmResponse>> {
-        return flowList(apiService.getMovieList(apiKey, "en-US"))
+        return flowList(apiService.getMovieList( BuildConfig.API_KEY, "en-US"))
 
     }
 
     suspend fun getTvShowsList(): Flow<ArrayList<FilmResponse>> {
-        return flowList(apiService.getTvShowList(apiKey, "en-US"))
+        return flowList(apiService.getTvShowList( BuildConfig.API_KEY, "en-US"))
     }
 
     private suspend fun flowList(response: ValuesResponse) = flow {
@@ -34,9 +32,9 @@ class RemoteFilmRepository(private val apiService: APIService) {
 
     suspend fun getDetailFromId(id: Int, type: Int): Flow<FilmResponse> {
         val response = if (type == 1) {
-            apiService.getMovie(id.toString(), apiKey, "en-US")
+            apiService.getMovie(id.toString(),  BuildConfig.API_KEY, "en-US")
         } else {
-            apiService.getTvShow(id.toString(), apiKey, "en-US")
+            apiService.getTvShow(id.toString(),  BuildConfig.API_KEY, "en-US")
         }
         return flowList(response)
     }
