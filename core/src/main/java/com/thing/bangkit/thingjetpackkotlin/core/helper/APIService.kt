@@ -5,18 +5,28 @@ import com.thing.bangkit.thingjetpackkotlin.core.data.remote.FilmResponse
 import com.thing.bangkit.thingjetpackkotlin.core.data.remote.ValuesResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface APIService {
 
-    @GET("discover/movie?api_key=" + BuildConfig.API_KEY + "&language=en-US")
-    suspend fun getMovieList(): ValuesResponse
+    @GET("discover/movie")
+    suspend fun getMovieList(
+        @Query("api_key") api_key: String,
+        @Query("language") language: String,
+    ): ValuesResponse
 
-    @GET("discover/tv?api_key=" + BuildConfig.API_KEY + "&language=en-US")
-    suspend fun getTvShowList(): ValuesResponse
+    @GET("discover/tv")
+    suspend fun getTvShowList(
+        @Query("api_key") api_key: String,
+        @Query("language") language: String): ValuesResponse
 
-    @GET("movie/{id}?api_key=" + BuildConfig.API_KEY + "&language=en-US")
-    suspend fun getMovie(@Path("id") id: String): FilmResponse
+    @GET("movie/{id}")
+    suspend fun getMovie(@Path("id") id: String,
+                         @Query("api_key") api_key: String,
+                         @Query("language") language: String): FilmResponse
 
-    @GET("tv/{id}?api_key=" + BuildConfig.API_KEY + "&language=en-US")
-    suspend fun getTvShow(@Path("id") id: String): FilmResponse
+    @GET("tv/{id}")
+    suspend fun getTvShow(@Path("id") id: String,
+                          @Query("api_key") api_key: String,
+                          @Query("language") language: String): FilmResponse
 }
