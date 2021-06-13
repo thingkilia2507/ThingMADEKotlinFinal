@@ -20,12 +20,13 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        buildConfigField("String", "API_KEY", '"9c31e4d6687f88851e41fede861a6200"')
     }
 
     buildTypes {
-        debug{
+        /*debug{
             buildConfigField ("String", "API_KEY", API_KEY)
-        }
+        }*/
         release {
             minifyEnabled false
         }
